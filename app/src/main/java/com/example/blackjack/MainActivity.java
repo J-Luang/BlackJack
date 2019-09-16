@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void dealButtonClick(View view)
     {
-        Card threeOfHearts = new Card("3", "Hearts");
+        Card threeOfHearts = new Card("3", "h");
         playerCardTextView.setText(threeOfHearts.toString());
         int image1ID = getResources().getIdentifier(threeOfHearts.toString(), "drawable", "com.example.blackjack");
         playerCardImage1.setImageResource(image1ID);

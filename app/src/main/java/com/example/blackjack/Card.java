@@ -14,11 +14,11 @@ public class Card
     public int getBlackJackValue()
     {
         switch (this.value) {
-            case "Ace":
+            case "a":
                 return 11;
-            case "Jack":
-            case "Queen":
-            case "King":
+            case "j":
+            case "q":
+            case "k":
                 return 10;
             default:
                 return Integer.parseInt(this.value);
@@ -27,8 +27,7 @@ public class Card
 
     public String toString()
     {
-        String cardString = suit.charAt(0) + value;
-        cardString = cardString.toLowerCase();
+        String cardString = suit + value;
         return cardString;
     }
 }

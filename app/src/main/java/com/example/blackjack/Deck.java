@@ -7,8 +7,8 @@ public class Deck
 {
     private List<Card> cards;
     private List<Card> discardedCards;
-    private final static String[] CARD_SUITS = {"Clubs", "Diamonds", "Hearts", "Spades"};
-    private final static String[] CARD_VALUES = {"Ace", "2", "3", "4", "5", "6", "7", "8", "9", "10", "Jack", "Queen", "King"};
+    private final static String[] CARD_SUITS = {"c", "d", "h", "s"};
+    private final static String[] CARD_VALUES = {"a", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"};
 
     public Deck()
     {
@@ -32,23 +32,19 @@ public class Deck
         }
     }
 
-    public List<Card> dealCards(int numCards)
+    public Card dealCard()
     {
-        List<Card> cardsToDeal = new ArrayList<>();
-
-        for (int cardNum = 0; cardNum < numCards; cardNum++)
+        if (!cards.isEmpty()) return cards.remove(0);
+        else
         {
-            if (!cards.isEmpty()) cardsToDeal.add(cards.remove(0));
-            else addDiscardsToDeck();
+            addDiscardsToDeck();
+            return dealCard();
         }
-        return cardsToDeal;
     }
-    public void discardCards(List<Card> cardsToReturn)
+
+    public void discardCard(Card cardToReturn)
     {
-        for(Card card : cardsToReturn)
-        {
-            discardedCards.add(card);
-        }
+        discardedCards.add(cardToReturn);
     }
 
     public void addDiscardsToDeck()
