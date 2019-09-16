@@ -1,4 +1,5 @@
 package com.example.blackjack;
+import java.util.*;
 
 import java.util.*;
 
@@ -35,15 +36,13 @@ public class Deck
     {
         List<Card> cardsToDeal = new ArrayList<>();
 
-        for(int cardNum = 0; cardNum < numCards; cardNum++)
+        for (int cardNum = 0; cardNum < numCards; cardNum++)
         {
-            if(!cards.isEmpty()) cardsToDeal.add(cards.remove(0));
+            if (!cards.isEmpty()) cardsToDeal.add(cards.remove(0));
             else addDiscardsToDeck();
         }
-
         return cardsToDeal;
     }
-
     public void discardCards(List<Card> cardsToReturn)
     {
         for(Card card : cardsToReturn)

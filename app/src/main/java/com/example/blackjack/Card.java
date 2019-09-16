@@ -13,8 +13,7 @@ public class Card
 
     public int getBlackJackValue()
     {
-        switch(this.value)
-        {
+        switch (this.value) {
             case "Ace":
                 return 11;
             case "Jack":
@@ -22,7 +21,7 @@ public class Card
             case "King":
                 return 10;
             default:
-                return 	Integer.parseInt(this.value);
+                return Integer.parseInt(this.value);
         }
     }
 
