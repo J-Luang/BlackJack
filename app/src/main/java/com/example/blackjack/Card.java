@@ -2,36 +2,34 @@ package com.example.blackjack;
 
 public class Card
 {
-    private int cardValue;
-    private Suit cardSuit;
+    private String value;
+    private String suit;
 
-    public Card(Suit suit, int card)
+    Card(String value, String suit)
     {
-        this.cardSuit = suit;
-        this.cardValue = card;
+        this.suit = suit;
+        this.value = value;
     }
 
-    public String getSuitString()
+    public int getBlackJackValue()
     {
-        if (cardSuit == Suit.Club)
+        switch(this.value)
         {
-            return "Club";
+            case "Ace":
+                return 11;
+            case "Jack":
+            case "Queen":
+            case "King":
+                return 10;
+            default:
+                return 	Integer.parseInt(this.value);
         }
-        else if (cardSuit == Suit.Diamond)
-        {
-            return "Diamond";
-        }
-        else if (cardSuit == Suit.Spade)
-        {
-            return "Spade";
-        }
-        else if (cardSuit == Suit.Heart)
-        {
-            return "Heart";
-        }
-        else
-            {
-                throw new RuntimeException("Cannot find suit");
-            }
+    }
+
+    public String toString()
+    {
+        String cardString = suit.charAt(0) + value;
+        cardString = cardString.toLowerCase();
+        return cardString;
     }
 }
