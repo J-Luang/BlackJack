@@ -30,6 +30,18 @@ public class Player
         }
     }
 
+    private int calculateBlackjackHandValue()
+    {
+        int handValue = 0;
+
+        for (Card card : hand)
+        {
+            handValue += card.getBlackJackValue();
+        }
+
+        return handValue;
+    }
+
     public List<Card> getHand()
     {
         return hand;

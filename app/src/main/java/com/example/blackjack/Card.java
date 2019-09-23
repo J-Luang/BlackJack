@@ -25,6 +25,11 @@ public class Card
         }
     }
 
+    public boolean checkIfSameValue(Card otherCard)
+    {
+        return otherCard.value == this.value;
+    }
+
     public String toString()
     {
         String cardString = suit + value;
