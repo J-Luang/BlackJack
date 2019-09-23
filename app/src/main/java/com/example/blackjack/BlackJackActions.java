@@ -15,12 +15,13 @@ public class BlackJackActions
 
     public void stand()
     {
-        playerStand();
+        player.playerStand();
     }
 
     public void hit()
     {
-        checkIfPlayerBusts();
+
+        player.checkIfPlayerBusts();
     }
 
     public void doubleDown()
