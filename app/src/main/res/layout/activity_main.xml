@@ -17,11 +17,11 @@
 
     <ImageView
         android:id="@+id/playerCardImage1"
-        android:layout_width="137dp"
-        android:layout_height="164dp"
-        android:layout_marginBottom="36dp"
-        android:layout_marginLeft="36dp"
-        android:layout_marginStart="36dp"
+        android:layout_width="122dp"
+        android:layout_height="147dp"
+        android:layout_marginBottom="24dp"
+        android:layout_marginLeft="156dp"
+        android:layout_marginStart="156dp"
         android:contentDescription="The player's first card dealt"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
