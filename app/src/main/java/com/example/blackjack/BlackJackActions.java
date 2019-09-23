@@ -2,10 +2,16 @@ package com.example.blackjack;
 
 public class BlackJackActions
 {
-    Deck deck = new Deck();
-    Player player = new Player(deck);
+    Deck deck;
+    Player player;
+    Player dealer;
 
-
+    BlackJackActions(Deck deck, Player player, Player dealer)
+    {
+        this.deck = deck;
+        this.player = player;
+        this.dealer = dealer;
+    }
 
     public void stand()
     {
