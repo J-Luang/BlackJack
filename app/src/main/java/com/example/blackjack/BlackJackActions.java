@@ -9,12 +9,12 @@ public class BlackJackActions
 
     public void stand()
     {
-
+        playerStand();
     }
 
     public void hit()
     {
-
+        checkIfPlayerBusts();
     }
 
     public void doubleDown()
