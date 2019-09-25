@@ -1,8 +1,6 @@
 package com.example.blackjack;
 import java.util.*;
 
-import java.util.*;
-
 public class Deck
 {
     private List<Card> cards;
@@ -58,6 +56,6 @@ public class Deck
 
     private void shuffle()
     {
-
+        
     }
 }
