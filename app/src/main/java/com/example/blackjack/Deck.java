@@ -28,6 +28,7 @@ public class Deck
                 }
             }
         }
+        shuffle();
     }
 
     public Card dealCard()
@@ -56,6 +57,6 @@ public class Deck
 
     private void shuffle()
     {
-        
+        Collections.shuffle(cards);
     }
 }

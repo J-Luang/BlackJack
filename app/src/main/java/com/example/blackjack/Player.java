@@ -6,11 +6,13 @@ public class Player
 {
     List<Card> hand;
     Deck deck;
+    boolean isPlayerDone;
 
     Player(Deck deck)
     {
         hand = new ArrayList<>();
         this.deck = deck;
+        isPlayerDone = false;
     }
 
     public void drawCards(int numCards)
@@ -28,6 +30,31 @@ public class Player
         {
             deck.discardCard(hand.remove(0));
         }
+    }
+
+    private int calculateBlackjackHandValue()
+    {
+        int handValue = 0;
+
+        for (Card card : hand)
+        {
+            handValue += card.getBlackJackValue();
+        }
+
+        return handValue;
+    }
+
+    public void checkIfPlayerBusts()
+    {
+        if(calculateBlackjackHandValue() > 21)
+        {
+            isPlayerDone = true;
+        }
+    }
+
+    public void playerStand()
+    {
+        isPlayerDone = true;
     }
 
     public List<Card> getHand()
