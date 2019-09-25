@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginEnd="68dp"
         android:layout_marginRight="68dp"
+        android:onClick="hitButtonClick"
         android:text="@string/hit"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,17 +35,17 @@
         app:layout_constraintVertical_bias="0.63" />
 
     <ImageView
-        android:id="@+id/playerCardImage3"
+        android:id="@+id/playerCardImage1"
         android:layout_width="85dp"
         android:layout_height="122dp"
-        android:contentDescription="@string/the_player_s_third_card_dealt"
+        android:contentDescription="@string/the_player_s_first_card_dealt"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.434"
+        app:layout_constraintHorizontal_bias="0.370"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.875"
+        app:layout_constraintVertical_bias=".875"
         app:srcCompat="@drawable/blue_back" />
 
     <ImageView
@@ -62,17 +63,45 @@
         app:srcCompat="@drawable/blue_back" />
 
     <ImageView
-        android:id="@+id/playerCardImage1"
+        android:id="@+id/playerCardImage3"
         android:layout_width="85dp"
         android:layout_height="122dp"
-        android:contentDescription="@string/the_player_s_first_card_dealt"
+        android:contentDescription="@string/the_player_s_third_card_dealt"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.371"
+        app:layout_constraintHorizontal_bias="0.430"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias=".875"
+        app:layout_constraintVertical_bias="0.875"
+        app:srcCompat="@drawable/blue_back" />
+
+    <ImageView
+        android:id="@+id/dealerCardImage1"
+        android:layout_width="85dp"
+        android:layout_height="122dp"
+        android:contentDescription="dealer's first card"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.370"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.125"
+        app:srcCompat="@drawable/blue_back" />
+
+    <ImageView
+        android:id="@+id/dealerCardImage2"
+        android:layout_width="85dp"
+        android:layout_height="122dp"
+        android:contentDescription="dealer's first card"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.4"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.125"
         app:srcCompat="@drawable/blue_back" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
