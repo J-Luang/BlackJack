@@ -2,9 +2,9 @@ package com.example.blackjack;
 
 public class BlackJackActions
 {
-    Deck deck;
-    Player player;
-    Player dealer;
+    private Deck deck;
+    private Player player;
+    private Player dealer;
 
     BlackJackActions(Deck deck, Player player, Player dealer)
     {
