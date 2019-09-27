@@ -19,5 +19,6 @@ public class Testing
         player2.drawCards(20);
         System.out.println(player1.getHand());
         System.out.println(player2.getHand());
+        
     }
 }
