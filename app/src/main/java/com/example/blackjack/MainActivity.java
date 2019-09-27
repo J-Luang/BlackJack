@@ -16,11 +16,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageView playerCardImage3;
     private ImageView dealerCardImage1;
     private ImageView dealerCardImage2;
+    Card playerCard1;
+    Card playerCard2;
+    Card dealerCard1;
+    Card dealerCard2;
     private Button deal;
     private Button hit;
     private Button stand;
     private Deck blackjackDeck;
     private Player player1;
+    private Player dealer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,16 +47,15 @@ public class MainActivity extends AppCompatActivity {
     public void dealButtonClick(View view)
     {
         blackjackDeck = new Deck(1);
-        blackjackDeck.shuffle();
-        Card playerCard1 = blackjackDeck.dealCard();
-        Card playerCard2 = blackjackDeck.dealCard();
-        Card dealerCard1 = blackjackDeck.dealCard();
-        Card dealerCard2 = blackjackDeck.dealCard();
+        player1.drawCards(2);
+        dealer.drawCards(2);
 
-        int playerCardImage1ID = getResources().getIdentifier(playerCard1.toString(), "drawable", "com.example.blackjack");
-        int playerCardImage2ID = getResources().getIdentifier(playerCard2.toString(), "drawable", "com.example.blackjack");
-        int dealerCardImage1ID = getResources().getIdentifier(dealerCard1.toString(), "drawable", "com.example.blackjack");
-        int dealerCardImage2ID = getResources().getIdentifier(dealerCard2.toString(), "drawable", "com.example.blackjack");
+
+
+        int playerCardImage1ID = getResources().getIdentifier(player1.getHand().get(0).toString(), "drawable", "com.example.blackjack");
+        int playerCardImage2ID = getResources().getIdentifier(player1.getHand().get(1).toString(), "drawable", "com.example.blackjack");
+        int dealerCardImage1ID = getResources().getIdentifier(dealer.getHand().get(0).toString(), "drawable", "com.example.blackjack");
+        int dealerCardImage2ID = getResources().getIdentifier(dealer.getHand().get(1).toString(), "drawable", "com.example.blackjack");
         playerCardImage1.setImageResource(playerCardImage1ID);
         playerCardImage2.setImageResource(playerCardImage2ID);
         dealerCardImage1.setImageResource(dealerCardImage1ID);
@@ -73,5 +77,10 @@ public class MainActivity extends AppCompatActivity {
     public void standButton(View view)
     {
         player1.playerStand();
+        //dealerCardImage2.setImageResource(dealerCardImage2ID);
+    }
+
+    public void displayCard(View view, Card card) {
+
     }
 }

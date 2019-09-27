@@ -15,6 +15,5 @@ public class DealerController {
 
     public void handleHitOrStand() {
         if(dealer.calculateBlackjackHandValue() < 17) game.hit(dealer);
-        else(game.stand(dealer));
     }
 }
