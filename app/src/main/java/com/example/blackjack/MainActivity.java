@@ -20,19 +20,25 @@ public class MainActivity extends AppCompatActivity {
     Card playerCard2;
     Card dealerCard1;
     Card dealerCard2;
+    private BlackJackActions actions;
     private Button deal;
     private Button hit;
     private Button stand;
     private Deck blackjackDeck;
     private Player player1;
     private Player dealer;
+    private DealerController dealerActions;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        actions = new BlackJackActions(blackjackDeck, player1, dealer);
+        blackjackDeck = new Deck(1);
         player1 = new Player(blackjackDeck);
+        dealer = new Player(blackjackDeck);
+        dealerActions = new DealerController(dealer,actions);
 
         playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
@@ -46,13 +52,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void dealButtonClick(View view)
     {
-        blackjackDeck = new Deck(1);
         player1.drawCards(2);
         dealer.drawCards(2);
+        dealer.getHand().get(1).turnFaceDown();
+        displayCard(playerCardImage1, player1.getHand().get(0));
+        displayCard(playerCardImage2, player1.getHand().get(1));
+        displayCard(dealerCardImage1, dealer.getHand().get(0));
+        displayCard(dealerCardImage2, dealer.getHand().get(1));
 
-
-
-        int playerCardImage1ID = getResources().getIdentifier(player1.getHand().get(0).toString(), "drawable", "com.example.blackjack");
+/*      int playerCardImage1ID = getResources().getIdentifier(player1.getHand().get(0).toString(), "drawable", "com.example.blackjack");
         int playerCardImage2ID = getResources().getIdentifier(player1.getHand().get(1).toString(), "drawable", "com.example.blackjack");
         int dealerCardImage1ID = getResources().getIdentifier(dealer.getHand().get(0).toString(), "drawable", "com.example.blackjack");
         int dealerCardImage2ID = getResources().getIdentifier(dealer.getHand().get(1).toString(), "drawable", "com.example.blackjack");
@@ -63,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
         playerCardImage1.setVisibility(View.VISIBLE);
         playerCardImage2.setVisibility(View.VISIBLE);
         dealerCardImage1.setVisibility(View.VISIBLE);
-        dealerCardImage2.setVisibility(View.VISIBLE);
+        dealerCardImage2.setVisibility(View.VISIBLE); */
     }
 
     public void hitButtonClick(View view)
@@ -77,10 +85,24 @@ public class MainActivity extends AppCompatActivity {
     public void standButton(View view)
     {
         player1.playerStand();
-        //dealerCardImage2.setImageResource(dealerCardImage2ID);
+        dealer.getHand().get(1).turnFaceup();
+        displayCard(dealerCardImage2, dealer.getHand().get(1));
+        if(dealer.calculateBlackjackHandValue() < 17)
+        {
+            dealer.drawCards(1);
+        }
     }
 
-    public void displayCard(View view, Card card) {
+    public void displayCard(ImageView imageView, Card card)
+    {
+        int cardImageID = getResources().getIdentifier(card.toString(), "drawable", "com.example.blackjack");
+        if(card.getFaceUp()) imageView.setImageResource(cardImageID);
+        else imageView.setImageResource(R.drawable.blue_back);
+        imageView.setVisibility(View.VISIBLE);
+    }
+
+    public void gameConditions()
+    {
 
     }
 }

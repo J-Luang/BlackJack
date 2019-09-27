@@ -4,11 +4,13 @@ public class Card
 {
     private String value;
     private String suit;
+    boolean faceUp;
 
     Card(String value, String suit)
     {
         this.suit = suit;
         this.value = value;
+        faceUp = true;
     }
 
     public int getBlackJackValue()
@@ -34,5 +36,17 @@ public class Card
     {
         String cardString = suit + value;
         return cardString;
+    }
+
+    public void turnFaceDown() {
+        faceUp = false;
+    }
+
+    public void turnFaceup() {
+        faceUp = true;
+    }
+
+    public boolean getFaceUp() {
+        return faceUp;
     }
 }
