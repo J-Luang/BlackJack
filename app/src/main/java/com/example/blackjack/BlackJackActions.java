@@ -13,14 +13,14 @@ public class BlackJackActions
         this.dealer = dealer;
     }
 
-    public void stand()
+    public void stand(Player player)
     {
         player.playerStand();
     }
 
-    public void hit()
+    public void hit(Player player)
     {
-
+        player.drawCards(1);
         player.checkIfPlayerBusts();
     }
 

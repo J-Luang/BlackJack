@@ -18,12 +18,16 @@ public class MainActivity extends AppCompatActivity {
     private ImageView dealerCardImage2;
     private Button deal;
     private Button hit;
+    private Button stand;
     private Deck blackjackDeck;
+    private Player player1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        player1 = new Player(blackjackDeck);
 
         playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
@@ -32,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
         dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
         deal = (Button) findViewById(R.id.deal);
         hit = (Button) findViewById(R.id.hit);
+        stand = (Button) findViewById(R.id.standButton);
     }
 
     public void dealButtonClick(View view)
@@ -63,5 +68,10 @@ public class MainActivity extends AppCompatActivity {
         int playerCardImage3ID = getResources().getIdentifier(playerCard3.toString(), "drawable", "com.example.blackjack");
         playerCardImage3.setImageResource(playerCardImage3ID);
         playerCardImage3.setVisibility(View.VISIBLE);
+    }
+
+    public void standButton(View view)
+    {
+        player1.playerStand();
     }
 }
