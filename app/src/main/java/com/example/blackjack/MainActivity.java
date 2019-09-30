@@ -1,6 +1,7 @@
 package com.example.blackjack;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.view.View;
@@ -16,10 +17,10 @@ public class MainActivity extends AppCompatActivity {
     private ImageView playerCardImage3;
     private ImageView dealerCardImage1;
     private ImageView dealerCardImage2;
-    Card playerCard1;
-    Card playerCard2;
-    Card dealerCard1;
-    Card dealerCard2;
+    private Card playerCard1;
+    private Card playerCard2;
+    private Card dealerCard1;
+    private Card dealerCard2;
     private BlackJackActions actions;
     private Button deal;
     private Button hit;
@@ -53,6 +54,8 @@ public class MainActivity extends AppCompatActivity {
     public void dealButtonClick(View view)
     {
         deal.setVisibility(View.INVISIBLE);
+        hit.setVisibility(View.VISIBLE);
+        stand.setVisibility(View.VISIBLE);
         player1.drawCards(2);
         dealer.drawCards(2);
         dealer.getHand().get(1).turnFaceDown();
@@ -66,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         int dealerCardImage1ID = getResources().getIdentifier(dealer.getHand().get(0).toString(), "drawable", "com.example.blackjack");
         int dealerCardImage2ID = getResources().getIdentifier(dealer.getHand().get(1).toString(), "drawable", "com.example.blackjack");
         playerCardImage1.setImageResource(playerCardImage1ID);
-        playerCardImage2.setImageResource(playerCardImage2ID);
+        playerCardImage2.setImageResource(playerCardImage2ID);3
         dealerCardImage1.setImageResource(dealerCardImage1ID);
         dealerCardImage2.setImageResource(R.drawable.blue_back);
         playerCardImage1.setVisibility(View.VISIBLE);
@@ -80,7 +83,6 @@ public class MainActivity extends AppCompatActivity {
         hit.setVisibility(View.VISIBLE);
         Card playerCard3 = blackjackDeck.dealCard();
         //Loop to move images?
-        playerCardImage1.setX(-5);
         int playerCardImage3ID = getResources().getIdentifier(playerCard3.toString(), "drawable", "com.example.blackjack");
         playerCardImage3.setImageResource(playerCardImage3ID);
         playerCardImage3.setVisibility(View.VISIBLE);
@@ -93,7 +95,11 @@ public class MainActivity extends AppCompatActivity {
         player1.playerStand();
         dealer.getHand().get(1).turnFaceup();
         displayCard(dealerCardImage2, dealer.getHand().get(1));
-        if(dealer.calculateBlackjackHandValue() < 17)
+        if(dealer.calculateBlackjackHandValue() == 21)
+        {
+            gameConditions();
+        }
+        else if(dealer.calculateBlackjackHandValue() < 17)
         {
             dealer.drawCards(1);
         }
@@ -116,6 +122,7 @@ public class MainActivity extends AppCompatActivity {
         if(player1.calculateBlackjackHandValue() > 21)
         {
             //Text for player has busted
+            clearTable();
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
@@ -144,10 +151,16 @@ public class MainActivity extends AppCompatActivity {
         //Text image change to invisible
         playerCardImage1.setVisibility(View.INVISIBLE);
         playerCardImage2.setVisibility(View.INVISIBLE);
+        playerCardImage3.setVisibility(View.INVISIBLE);
         dealerCardImage1.setVisibility(View.INVISIBLE);
         dealerCardImage2.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.INVISIBLE);
         stand.setVisibility(View.INVISIBLE);
         deal.setVisibility(View.VISIBLE);
+    }
+
+    public void createNewCard(View view)
+    {
+        final ConstraintLayout = fin
     }
 }
