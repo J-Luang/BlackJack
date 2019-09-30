@@ -161,6 +161,6 @@ public class MainActivity extends AppCompatActivity {
 
     public void createNewCard(View view)
     {
-        final ConstraintLayout = fin
+        
     }
 }
