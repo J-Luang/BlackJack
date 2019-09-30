@@ -1,6 +1,7 @@
 package com.example.blackjack;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,12 +20,12 @@ public class MainActivity extends AppCompatActivity {
     private Button deal;
     private Button hit;
     private Deck blackjackDeck;
+    private int players;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
         playerCardImage3 = (ImageView) findViewById(R.id.playerCardImage3);
@@ -59,9 +60,10 @@ public class MainActivity extends AppCompatActivity {
 
     public void hitButtonClick(View view)
     {
-        Card playerCard3 = blackjackDeck.dealCard();
+
+        /*Card playerCard3 = blackjackDeck.dealCard();
         int playerCardImage3ID = getResources().getIdentifier(playerCard3.toString(), "drawable", "com.example.blackjack");
         playerCardImage3.setImageResource(playerCardImage3ID);
-        playerCardImage3.setVisibility(View.VISIBLE);
+        playerCardImage3.setVisibility(View.VISIBLE);*/
     }
 }
