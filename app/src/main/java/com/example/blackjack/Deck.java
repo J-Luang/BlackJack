@@ -33,7 +33,10 @@ public class Deck
 
     public Card dealCard()
     {
-        if (!cards.isEmpty()) return cards.remove(0);
+        if (!cards.isEmpty())
+        {
+            return cards.remove(0);
+        }
         else
         {
             addDiscardsToDeck();

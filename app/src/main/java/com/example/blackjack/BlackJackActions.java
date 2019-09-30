@@ -2,9 +2,9 @@ package com.example.blackjack;
 
 public class BlackJackActions
 {
-    Deck deck;
-    Player player;
-    Player dealer;
+    private Deck deck;
+    private Player player;
+    private Player dealer;
 
     BlackJackActions(Deck deck, Player player, Player dealer)
     {
@@ -13,14 +13,14 @@ public class BlackJackActions
         this.dealer = dealer;
     }
 
-    public void stand()
+    public void stand(Player player)
     {
         player.playerStand();
     }
 
-    public void hit()
+    public void hit(Player player)
     {
-
+        player.drawCards(1);
         player.checkIfPlayerBusts();
     }
 

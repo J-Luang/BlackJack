@@ -32,7 +32,7 @@ public class Player
         }
     }
 
-    private int calculateBlackjackHandValue()
+    public int calculateBlackjackHandValue()
     {
         int handValue = 0;
 

@@ -7,4 +7,7 @@
     <string name="the_player_s_first_card_dealt">The player\'s first card dealt</string>
     <string name="dealer_s_first_card">dealer\'s first card</string>
     <string name="dealer_s_second_card">dealer\'s second card</string>
+    <string name="stand">Stand</string>
+    <string name="gamewin_loss">GameWin/Loss</string>
+
 </resources>
