@@ -131,6 +131,7 @@
         android:layout_marginRight="340dp"
         android:layout_marginBottom="36dp"
         android:text="@string/gamewin_loss"
+        android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/playerCardImage2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
