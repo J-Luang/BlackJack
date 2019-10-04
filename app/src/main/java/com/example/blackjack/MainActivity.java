@@ -4,19 +4,23 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity
+{
     private TextView playerCardTextView;
     private ImageView playerCardImage1;
     private ImageView playerCardImage2;
-    private ImageView playerCardImage3;
     private ImageView dealerCardImage1;
     private ImageView dealerCardImage2;
+    private ImageView lastCard;
     private Card playerCard1;
     private Card playerCard2;
     private Card dealerCard1;
@@ -27,6 +31,8 @@ public class MainActivity extends AppCompatActivity {
     private Button stand;
     private Deck blackjackDeck;
     private int players;
+    private int playerCards;
+    private int dealerCards;
     private Player player1;
     private Player dealer;
     private DealerController dealerActions;
@@ -40,25 +46,31 @@ public class MainActivity extends AppCompatActivity {
         blackjackDeck = new Deck(1);
         player1 = new Player(blackjackDeck);
         dealer = new Player(blackjackDeck);
+        playerCards = 0;
+        dealerCards = 0;
         dealerActions = new DealerController(dealer,actions);
 
         playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
-        playerCardImage3 = (ImageView) findViewById(R.id.playerCardImage3);
         dealerCardImage1 = (ImageView) findViewById(R.id.dealerCardImage1);
         dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
         deal = (Button) findViewById(R.id.deal);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
+
+        lastCard = findViewById(R.id.playerCardImage2);
     }
 
     public void dealButtonClick(View view)
     {
+        int dealtCards = 2;
         deal.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
-        player1.drawCards(2);
-        dealer.drawCards(2);
+        player1.drawCards(dealtCards);
+        dealer.drawCards(dealtCards);
+        playerCards = player1.getHand().size();
+        dealerCards = dealer.getHand().size();
         dealer.getHand().get(1).turnFaceDown();
         displayCard(playerCardImage1, player1.getHand().get(0));
         displayCard(playerCardImage2, player1.getHand().get(1));
@@ -82,11 +94,39 @@ public class MainActivity extends AppCompatActivity {
     public void hitButtonClick(View view)
     {
         hit.setVisibility(View.VISIBLE);
-        Card playerCard3 = blackjackDeck.dealCard();
+        playerCards += 1;
+        Card playerCard = blackjackDeck.dealCard();
         //Loop to move images?
-        int playerCardImage3ID = getResources().getIdentifier(playerCard3.toString(), "drawable", "com.example.blackjack");
-        playerCardImage3.setImageResource(playerCardImage3ID);
-        playerCardImage3.setVisibility(View.VISIBLE);
+        final ConstraintLayout layout = findViewById(R.id.myLayout);
+        final ImageView newPlayerCardImage = new ImageView(this);
+        int newPlayerCardImageID = getResources().getIdentifier(playerCard.toString(), "drawable", "com.example.blackjack");
+        newPlayerCardImage.setImageResource(newPlayerCardImageID);
+        newPlayerCardImage.setVisibility(View.VISIBLE);
+
+        final float currentX = lastCard.getX();
+        final float currentY = lastCard.getY();
+        final int currentHeight = lastCard.getLayoutParams().height;
+        final int currentWidth = lastCard.getLayoutParams().width;
+        final float separation = 100;
+
+        Log.i("position", "XPosition =" + playerCardImage2.getX());
+        Log.i("position", "YPosition =" + playerCardImage2.getY());
+        Log.i("position", "Height =" + currentHeight);
+        Log.i("position", "Width =" + currentWidth);
+        Log.i("position", "LastXPosition =" + currentX);
+        Log.i("position", "LastYPosition =" + currentY);
+        /*LinearLayout.LayoutParams cardParams = new LinearLayout.LayoutParams(currentWidth,currentHeight);
+        newPlayerCardImage.setLayoutParams(cardParams);*/
+        newPlayerCardImage.setX(currentX + separation);
+        newPlayerCardImage.setY(currentY);
+
+        newPlayerCardImage.setLayoutParams(new ViewGroup.LayoutParams(ConstraintLayout.LayoutParams.MATCH_PARENT,
+                ConstraintLayout.LayoutParams.MATCH_PARENT));
+
+        layout.addView(newPlayerCardImage);
+
+        lastCard = newPlayerCardImage;
+
         gameConditions();
     }
 
@@ -152,7 +192,6 @@ public class MainActivity extends AppCompatActivity {
         //Text image change to invisible
         playerCardImage1.setVisibility(View.INVISIBLE);
         playerCardImage2.setVisibility(View.INVISIBLE);
-        playerCardImage3.setVisibility(View.INVISIBLE);
         dealerCardImage1.setVisibility(View.INVISIBLE);
         dealerCardImage2.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.INVISIBLE);
