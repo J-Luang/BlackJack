@@ -9,5 +9,9 @@
     <string name="dealer_s_second_card">dealer\'s second card</string>
     <string name="stand">Stand</string>
     <string name="gamewin_loss">GameWin/Loss</string>
-
+    <string name="player_bust">You have busted!</string>
+    <string name="dealer_bust">Dealer has busted!\nYou Won!</string>
+    <string name="push">push</string>
+    <string name="player_won">You won!</string>
+    <string name="dealer_won">Dealer wins!</string>
 </resources>
