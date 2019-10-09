@@ -13,6 +13,12 @@ public class BlackJackActions
         this.dealer = dealer;
     }
 
+    public void deal(Player player1, Player dealer)
+    {
+        player1.drawCards(2);
+        dealer.drawCards(2);
+    }
+
     public void stand(Player player)
     {
         player.playerStand();
