@@ -2,9 +2,9 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/myLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/myLayout"
     tools:context=".MainActivity">
 
     <Button
@@ -36,47 +36,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.809" />
 
-    <ImageView
-        android:id="@+id/playerCardImage1"
-        android:layout_width="85dp"
-        android:layout_height="122dp"
-        android:contentDescription="@string/the_player_s_first_card_dealt"
+    <Button
+        android:id="@+id/standButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="460dp"
+        android:layout_marginStart="460dp"
+        android:layout_marginTop="295dp"
+        android:onClick="standButton"
+        android:text="@string/stand"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.875"
-        app:srcCompat="@drawable/blue_back" />
-
-    <ImageView
-        android:id="@+id/playerCardImage2"
-        android:layout_width="85dp"
-        android:layout_height="122dp"
-        android:contentDescription="@string/the_player_s_second_card_dealt"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.382"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.875"
-        app:srcCompat="@drawable/blue_back" />
-
-    <ImageView
-        android:id="@+id/playerCardImage3"
-        android:layout_width="85dp"
-        android:layout_height="122dp"
-        android:contentDescription="@string/the_player_s_third_card_dealt"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.444"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.875"
-        app:srcCompat="@drawable/blue_back" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <ImageView
         android:id="@+id/dealerCardImage1"
@@ -106,31 +79,44 @@
         app:layout_constraintVertical_bias="0.125"
         app:srcCompat="@drawable/blue_back" />
 
-    <Button
-        android:id="@+id/standButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="460dp"
-        android:layout_marginLeft="460dp"
-        android:layout_marginTop="295dp"
-        android:onClick="standButton"
-        android:text="@string/stand"
+    <ImageView
+        android:id="@+id/playerCardImage1"
+        android:layout_width="85dp"
+        android:layout_height="122dp"
+        android:contentDescription="@string/the_player_s_first_card_dealt"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.312"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintVertical_bias="0.875"
+        app:srcCompat="@drawable/blue_back" />
+
+    <ImageView
+        android:id="@+id/playerCardImage2"
+        android:layout_width="85dp"
+        android:layout_height="122dp"
+        android:contentDescription="@string/the_player_s_second_card_dealt"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.385"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.875"
+        app:srcCompat="@drawable/blue_back" />
 
     <TextView
         android:id="@+id/gameWinCheck"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="333dp"
-        android:layout_marginLeft="333dp"
-        android:layout_marginTop="40dp"
-        android:layout_marginEnd="340dp"
-        android:layout_marginRight="340dp"
         android:layout_marginBottom="36dp"
+        android:layout_marginEnd="340dp"
+        android:layout_marginLeft="333dp"
+        android:layout_marginRight="340dp"
+        android:layout_marginStart="333dp"
+        android:layout_marginTop="40dp"
         android:text="@string/gamewin_loss"
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/playerCardImage2"
