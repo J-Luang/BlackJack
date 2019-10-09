@@ -26,7 +26,8 @@ public class MainActivity extends AppCompatActivity {
     private ImageView playerCardImage2;
     private ImageView dealerCardImage1;
     private ImageView dealerCardImage2;
-    ImageView lastCard;
+    ImageView lastPlayerCard;
+    ImageView lastDealerCard;
     private Card playerCard1;
     private Card playerCard2;
     private Card dealerCard1;
@@ -78,7 +79,8 @@ public class MainActivity extends AppCompatActivity {
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
 
-        lastCard = findViewById(R.id.playerCardImage2);
+        lastDealerCard = findViewById(R.id.dealerCardImage2);
+        lastPlayerCard = findViewById(R.id.playerCardImage2);
     }
 
     public void dealButtonClick(View view)
@@ -122,26 +124,25 @@ public class MainActivity extends AppCompatActivity {
     public void hitButtonClick(View view)
     {
         hit.setVisibility(View.VISIBLE);
-        playerCards += 1;
         Card playerCard = blackjackDeck.dealCard();
         final ConstraintLayout layout = findViewById(R.id.myLayout);
         //Loop to move images?
-        moveNewCard(playerCard, layout);
-
+        final ImageView newPlayerCardImage = createNewCard(playerCardImageArray);
+        moveNewCard(newPlayerCardImage, lastPlayerCard, playerCard, layout);
+        lastPlayerCard = newPlayerCardImage;
         /*
         player1.drawCards(1);
         for(int i = 0; i < 1; i++)
         {
             displayCard(playerCardImageArray.get(playerCardImageArray.size() - 1), player1.getHand().get(arrayPlayerCard.size() - 1));
         }
-        */
-        gameConditions();
 
+        gameConditions();
+        */
 
     }
 
-    private void moveNewCard(Card playerCard, ConstraintLayout layout) {
-        final ImageView newPlayerCardImage = createNewCard(playerCardImageArray);
+    private void moveNewCard(ImageView lastCard, ImageView newPlayerCardImage, Card playerCard, ConstraintLayout layout) {
 
         final float currentX = lastCard.getX();
         final float currentY = lastCard.getY();
@@ -158,11 +159,11 @@ public class MainActivity extends AppCompatActivity {
         newPlayerCardImage.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
         displayCard(newPlayerCardImage, playerCard);
         layout.addView(newPlayerCardImage);
-        lastCard = newPlayerCardImage;
     }
 
     public void standButton(View view)
     {
+        final ConstraintLayout layout = findViewById(R.id.myLayout);
         stand.setVisibility(View.VISIBLE);
         player1.playerStand();
         dealer.getHand().get(1).turnFaceup();
@@ -175,6 +176,9 @@ public class MainActivity extends AppCompatActivity {
                 public void run()
                 {
                     dealer.drawCards(1);
+                    Log.i("card", "card: " + dealer.getHand().get(2));
+                    final ImageView newDealerCardImage = createNewCard(dealerCardImageArray);
+                    moveNewCard(newDealerCardImage,lastDealerCard, dealer.getHand().get(dealer.getHand().size()), layout);
                 }
             }, 1000);
         }
