@@ -78,10 +78,14 @@ public class MainActivity extends AppCompatActivity {
         deal.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
+        Log.i("debug", "Reached 1st");
         actions.deal(player1, dealer);
+        Log.i("debug", "Reached 2nd");
         dealer.getHand().get(1).turnFaceDown();
+        Log.i("debug", "Reached 3rd");
         for(int i = 0; i < 2; i++)
         {
+            Log.i("debug", "Reached 4th");
             displayCard(playerCardImageArray.get(i), player1.getHand().get(i));
             displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
         }
