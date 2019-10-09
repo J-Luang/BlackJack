@@ -4,22 +4,22 @@ import java.util.*;
 
 public class Player
 {
-    List<Card> hand;
-    Deck deck;
+    Hand hand;
     boolean isPlayerDone;
+    Deck deck;
 
     Player(Deck deck)
     {
-        hand = new ArrayList<>();
-        this.deck = deck;
+        hand = new Hand();
         isPlayerDone = false;
+        this.deck = deck;
     }
 
     public void drawCards(int numCards)
     {
         for(int cardNum = 0; cardNum < numCards; cardNum++)
         {
-            hand.add(deck.dealCard());
+            hand.add(this.deck.dealCard());
         }
     }
 
@@ -28,20 +28,13 @@ public class Player
         int handSize = hand.size();
         for(int i = 0; i < handSize; i++)
         {
-            deck.discardCard(hand.remove(0));
+            this.deck.discardCard(hand.discard());
         }
     }
 
     public int calculateBlackjackHandValue()
     {
-        int handValue = 0;
-
-        for (Card card : hand)
-        {
-            handValue += card.getBlackJackValue();
-        }
-
-        return handValue;
+        return hand.value();
     }
 
     public void checkIfPlayerBusts()
@@ -57,7 +50,7 @@ public class Player
         isPlayerDone = true;
     }
 
-    public List<Card> getHand()
+    public Hand getHand()
     {
         return hand;
     }

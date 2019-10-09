@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
     {
         stand.setVisibility(View.VISIBLE);
         player1.playerStand();
-        dealer.getHand().get(1).turnFaceup();
+        dealer.getHand().get(1).turnFaceUp();
         displayCard(dealerCardImage2, dealer.getHand().get(1));
         if(dealer.calculateBlackjackHandValue() == 21)
         {

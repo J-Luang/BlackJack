@@ -13,7 +13,7 @@ public class DealerController
 
     public void begin()
     {
-        dealer.getHand().get(1).turnFaceup();
+        dealer.getHand().get(1).turnFaceUp();
 //        while(!dealer.isPlayerDone) handleHitOrStand();
     }
 

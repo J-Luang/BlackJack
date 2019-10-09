@@ -1,52 +1,114 @@
 package com.example.blackjack;
 
+import androidx.annotation.NonNull;
+
 public class Card
 {
-    private String value;
-    private String suit;
-    boolean faceUp;
-
-    Card(String value, String suit)
+    enum Suit
     {
-        this.suit = suit;
-        this.value = value;
-        faceUp = true;
-    }
+        Clubs("c"), Diamonds("d"), Hearts("h"), Spades("s");
 
-    public int getBlackJackValue()
-    {
-        switch (this.value) {
-            case "a":
-                return 11;
-            case "j":
-            case "q":
-            case "k":
-                return 10;
-            default:
-                return Integer.parseInt(this.value);
+        private String suit;
+
+        Suit(String suit)
+        {
+            this.suit = suit;
+        }
+
+        @NonNull
+        @Override
+        public String toString()
+        {
+            return this.suit;
         }
     }
 
-    public boolean checkIfSameValue(Card otherCard)
+    enum Rank
     {
-        return otherCard.value == this.value;
+        Ace("a"), Two("2"), Three("3"), Four("4"), Five("5"), Six("6"), Seven("7"),
+        Eight("8"), Nine("9"), Ten("10"), Jack("j"), Queen("q"), King("k");
+
+        private String rank;
+
+        Rank(String rank)
+        {
+            this.rank = rank;
+        }
+
+        @NonNull
+        @Override
+        public String toString()
+        {
+            return this.rank;
+        }
+
     }
 
+    private Rank rank;
+    private Suit suit;
+    boolean isFaceUp;
+
+    Card(Rank rank, Suit suit)
+    {
+        this.suit = suit;
+        this.rank = rank;
+        isFaceUp = true;
+    }
+
+    public int softValue()
+    {
+        if(isAce()) return 11;
+        else return nonAceValue();
+    }
+
+    public int hardValue()
+    {
+        if(isAce()) return 1;
+        else return nonAceValue();
+    }
+
+    private int nonAceValue()
+    {
+        switch (this.rank)
+        {
+            case Jack:
+            case Queen:
+            case King:
+                return 10;
+            default:
+                return Integer.parseInt(this.rank.toString());
+        }
+    }
+
+    public boolean isAce()
+    {
+        return this.rank == Rank.Ace;
+    }
+
+    public boolean checkIfSameRank(Card otherCard) {
+        return otherCard.rank == this.rank;
+    }
+
+    @NonNull
+    @Override
     public String toString()
     {
-        String cardString = suit + value;
+        String cardString = this.suit.toString() + this.rank;
         return cardString;
     }
 
-    public void turnFaceDown() {
-        faceUp = false;
+    public void turnFaceUp()
+    {
+        isFaceUp = true;
     }
 
-    public void turnFaceup() {
-        faceUp = true;
+    public void turnFaceDown()
+    {
+        isFaceUp = false;
     }
 
-    public boolean getFaceUp() {
-        return faceUp;
+    public boolean getFaceUp()
+    {
+        return isFaceUp;
     }
 }
