@@ -103,7 +103,7 @@ public class MainActivity extends AppCompatActivity {
     public void standButton(View view)
     {
         actions.stand(player1);
-        dealer.getHand().get(1).turnFaceup();
+        dealer.getHand().get(1).turnFaceUp();
         displayCard(dealerCardImage2, dealer.getHand().get(1));
         if(dealer.calculateBlackjackHandValue() < 17)
         {
