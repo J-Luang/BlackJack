@@ -5,8 +5,6 @@ public class Deck
 {
     private List<Card> cards;
     private List<Card> discardedCards;
-    private final static String[] CARD_SUITS = {"c", "d", "h", "s"};
-    private final static String[] CARD_VALUES = {"a", "2", "3", "4", "5", "6", "7", "8", "9", "10", "j", "q", "k"};
 
     public Deck()
     {
@@ -20,11 +18,11 @@ public class Deck
 
         for(int deckNum = 0; deckNum < numDecks; deckNum++)
         {
-            for(String cardSuit : CARD_SUITS)
+            for(Card.Suit cardSuit : Card.Suit.values())
             {
-                for(String cardValue : CARD_VALUES)
+                for(Card.Rank cardRank : Card.Rank.values())
                 {
-                    cards.add(new Card(cardValue, cardSuit));
+                    cards.add(new Card(cardRank, cardSuit));
                 }
             }
         }
