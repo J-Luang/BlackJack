@@ -60,16 +60,16 @@ public class MainActivity extends AppCompatActivity {
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
         dealerCardImage1 = (ImageView) findViewById(R.id.dealerCardImage1);
         dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
-        playerCardImageArray.add(playerCardImage1);
-        playerCardImageArray.add(playerCardImage2);
-        dealerCardImageArray.add(dealerCardImage1);
-        dealerCardImageArray.add(dealerCardImage2);
+        //playerCardImageArray.add(playerCardImage1);
+        //playerCardImageArray.add(playerCardImage2);
+        //dealerCardImageArray.add(dealerCardImage1);
+        //dealerCardImageArray.add(dealerCardImage2);
         deal = (Button) findViewById(R.id.deal);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
 
-        playerLastCard = findViewById(R.id.playerCardImage2);
-        dealerLastCard = findViewById(R.id.dealerCardImage2);
+        //playerLastCard = findViewById(R.id.playerCardImage2);
+        //dealerLastCard = findViewById(R.id.dealerCardImage2);
 
     }
 
@@ -80,6 +80,12 @@ public class MainActivity extends AppCompatActivity {
         stand.setVisibility(View.VISIBLE);
         actions.deal(player1, dealer);
         dealer.getHand().get(1).turnFaceDown();
+        playerCardImageArray.add(playerCardImage1);
+        playerCardImageArray.add(playerCardImage2);
+        dealerCardImageArray.add(dealerCardImage1);
+        dealerCardImageArray.add(dealerCardImage2);
+        playerLastCard = findViewById(R.id.playerCardImage2);
+        dealerLastCard = findViewById(R.id.dealerCardImage2);
         for(int i = 0; i < 2; i++)
         {
             displayCard(playerCardImageArray.get(i), player1.getHand().get(i));
@@ -90,9 +96,8 @@ public class MainActivity extends AppCompatActivity {
     public void hitButtonClick(View view)
     {
         actions.hit(player1);
-        Card playerCard = blackjackDeck.dealCard();
         final ConstraintLayout layout = findViewById(R.id.myLayout);
-        moveNewCard(playerCard, layout, playerLastCard, player1);
+        moveNewCard(layout, playerLastCard, player1);
         if(player1.calculateBlackjackHandValue() > 21)
         {
             gameConditions();
@@ -107,17 +112,10 @@ public class MainActivity extends AppCompatActivity {
         displayCard(dealerCardImage2, dealer.getHand().get(1));
         if(dealer.calculateBlackjackHandValue() < 17)
         {
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    actions.hit(dealer);
-                    Card playerCard = blackjackDeck.dealCard();
-                    final ConstraintLayout layout = findViewById(R.id.myLayout);
-                    moveNewCard(playerCard, layout, dealerLastCard, dealer);
-                }
-            }, 1000);
+            actions.hit(dealer);
+            final ConstraintLayout layout = findViewById(R.id.myLayout);
+            moveNewCard(layout, dealerLastCard, dealer);
+
         }
         else
         {
@@ -141,61 +139,31 @@ public class MainActivity extends AppCompatActivity {
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setText(R.string.player_bust);
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
-                    clearTable();
-                }
-            }, 1000);
+            clearTable();
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setText(R.string.dealer_bust);
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
-                    clearTable();
-                }
-            }, 1000);
+            clearTable();
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setText(R.string.push);
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
-                    clearTable();
-                }
-            }, 1000);
+            clearTable();
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setText(R.string.dealer_won);
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
-                    clearTable();
-                }
-            }, 1000);
+            clearTable();
         }
         else
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setText(R.string.player_won);
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
-                    clearTable();
-                }
-            }, 1000);
+            clearTable();
         }
     }
 
@@ -211,11 +179,19 @@ public class MainActivity extends AppCompatActivity {
         deal.setVisibility(View.VISIBLE);
         player1.discardHand();
         dealer.discardHand();
+
+        for(ImageView imageView : playerCardImageArray) {
+            imageView.setVisibility(View.INVISIBLE);
+        }
+        for(ImageView imageView : dealerCardImageArray) {
+            imageView.setVisibility(View.INVISIBLE);
+        }
+
         playerCardImageArray.clear();
         dealerCardImageArray.clear();
     }
 
-    private void moveNewCard(Card playerCard, ConstraintLayout layout, ImageView lastCard, Player player)
+    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
     {
         ImageView image;
         if(player == player1)
@@ -239,7 +215,7 @@ public class MainActivity extends AppCompatActivity {
 
         image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-        displayCard(image, playerCard);
+        displayCard(image, player1.getHand().getCards().get(playerCardImageArray.size() - 1));
         layout.addView(image);
         if(player == player1)
         {
