@@ -90,9 +90,8 @@ public class MainActivity extends AppCompatActivity {
     public void hitButtonClick(View view)
     {
         actions.hit(player1);
-        Card playerCard = blackjackDeck.dealCard();
         final ConstraintLayout layout = findViewById(R.id.myLayout);
-        moveNewCard(playerCard, layout, playerLastCard, player1);
+        moveNewCard(layout, playerLastCard, player1);
         if(player1.calculateBlackjackHandValue() > 21)
         {
             gameConditions();
@@ -107,21 +106,21 @@ public class MainActivity extends AppCompatActivity {
         displayCard(dealerCardImage2, dealer.getHand().get(1));
         if(dealer.calculateBlackjackHandValue() < 17)
         {
+            actions.hit(dealer);
             timer.schedule(new TimerTask()
             {
                 @Override
                 public void run()
                 {
-                    actions.hit(dealer);
                     Card playerCard = blackjackDeck.dealCard();
                     final ConstraintLayout layout = findViewById(R.id.myLayout);
-                    moveNewCard(playerCard, layout, dealerLastCard, dealer);
+                    moveNewCard(layout, dealerLastCard, dealer);
                 }
             }, 1000);
         }
         else
         {
-            gameConditions();
+                gameConditions();
         }
     }
 
@@ -211,11 +210,12 @@ public class MainActivity extends AppCompatActivity {
         deal.setVisibility(View.VISIBLE);
         player1.discardHand();
         dealer.discardHand();
-        playerCardImageArray.clear();
-        dealerCardImageArray.clear();
+//        playerCardImageArray.clear();
+//        dealerCardImageArray.clear();
     }
 
-    private void moveNewCard(Card playerCard, ConstraintLayout layout, ImageView lastCard, Player player)
+    //remove playerCard
+    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
     {
         ImageView image;
         if(player == player1)
@@ -239,7 +239,8 @@ public class MainActivity extends AppCompatActivity {
 
         image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-        displayCard(image, playerCard);
+        //Issue
+        displayCard(image, player1.getHand().get(playerCardImageArray.size() - 1));
         layout.addView(image);
         if(player == player1)
         {
