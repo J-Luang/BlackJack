@@ -137,6 +137,8 @@ public class MainActivity extends AppCompatActivity {
         int dealerHandValue = dealer.calculateBlackjackHandValue();
         if(player1.calculateBlackjackHandValue() > 21)
         {
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.player_bust);
             timer.schedule(new TimerTask()
             {
                 @Override
@@ -147,8 +149,6 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void run()
                         {
-                            winLoss.setVisibility(View.VISIBLE);
-                            winLoss.setText(R.string.player_bust);
                             clearTable();
                         }
                     });
@@ -157,51 +157,28 @@ public class MainActivity extends AppCompatActivity {
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.dealer_bust);
                     clearTable();
-                }
-            }, 1000);
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.push);
                     clearTable();
-                }
-            }, 1000);
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
+
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.dealer_won);
                     clearTable();
-                }
-            }, 1000);
         }
         else
         {
-            timer.schedule(new TimerTask()
-            {
-                public void run()
-                {
                 winLoss.setVisibility(View.VISIBLE);
                 winLoss.setText(R.string.player_won);
                 clearTable();
-                }
-            }, 1000);
         }
     }
 
