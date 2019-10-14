@@ -95,32 +95,60 @@ public class MainActivity extends AppCompatActivity {
 
     public void hitButtonClick(View view)
     {
+        Log.i("Player", "Cards: " + player1.calculateBlackjackHandValue());
         actions.hit(player1);
         final ConstraintLayout layout = findViewById(R.id.myLayout);
         moveNewCard(layout, playerLastCard, player1);
-        if(player1.calculateBlackjackHandValue() >= 21)
+        if(player1.getHand().size() == 2 && player1.calculateBlackjackHandValue() == 21)
         {
+            stand.setVisibility(View.INVISIBLE);
+            hit.setVisibility(View.INVISIBLE);
             gameConditions();
         }
-
+        else if (player1.calculateBlackjackHandValue() > 21)
+        {
+            stand.setVisibility(View.INVISIBLE);
+            hit.setVisibility(View.INVISIBLE);
+            gameConditions();
+        }
     }
 
     public void standButton(View view)
     {
         actions.stand(player1);
+        stand.setVisibility(View.INVISIBLE);
+        hit.setVisibility(View.INVISIBLE);
         dealer.getHand().get(1).turnFaceUp();
         displayCard(dealerCardImage2, dealer.getHand().get(1));
         dealerPlay();
-        gameConditions();
     }
 
     public void dealerPlay()
     {
-        while (dealer.calculateBlackjackHandValue() < 17)
+        List<Card> testCards = new ArrayList<>();
+        Card ace = new Card(Card.Rank.Ace, Card.Suit.Clubs);
+        testCards.add(ace); testCards.add(ace);
+        dealer.getHand().setHand(testCards);
+        for(int i = 0; i < 2; i++)
+        {
+            displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
+        }
+        while(dealer.calculateBlackjackHandValue() < 27)
         {
             actions.hit(dealer);
             final ConstraintLayout layout = findViewById(R.id.myLayout);
             moveNewCard(layout, dealerLastCard, dealer);
+            Log.i("Dealer", "Dealer hand: " + dealer.calculateBlackjackHandValue());
+
+            for(int i = 0; i < dealerCardImageArray.size(); i++)
+            {
+                Log.i("Dealer", "Dealer card: " + dealer.getHand().getCards().get(i));
+                displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
+            }
+        }
+        if(dealer.calculateBlackjackHandValue() >= 27)
+        {
+            gameConditions();
         }
     }
 
@@ -154,7 +182,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }, 1000);
+            }, 5000);
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
@@ -174,7 +202,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }, 1000);
+            }, 5000);
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
@@ -194,7 +222,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }, 1000);
+            }, 5000);
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
@@ -215,7 +243,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }, 1000);
+            }, 5000);
         }
         else
         {
@@ -235,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                     });
                 }
-            }, 1000);
+            }, 5000);
         }
     }
 
@@ -287,7 +315,14 @@ public class MainActivity extends AppCompatActivity {
 
         image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-        displayCard(image, player1.getHand().getCards().get(playerCardImageArray.size() - 1));
+        if(player == player1)
+        {
+            displayCard(image, player1.getHand().getCards().get(playerCardImageArray.size() - 1));
+        }
+        else
+        {
+            displayCard(image, dealer.getHand().getCards().get(dealerCardImageArray.size() - 1));
+        }
         layout.addView(image);
         if(player == player1)
         {
