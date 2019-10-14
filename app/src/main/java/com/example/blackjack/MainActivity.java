@@ -110,16 +110,17 @@ public class MainActivity extends AppCompatActivity {
         actions.stand(player1);
         dealer.getHand().get(1).turnFaceUp();
         displayCard(dealerCardImage2, dealer.getHand().get(1));
-        if(dealer.calculateBlackjackHandValue() < 17)
+        dealerPlay();
+        gameConditions();
+    }
+
+    public void dealerPlay()
+    {
+        while (dealer.calculateBlackjackHandValue() < 17)
         {
             actions.hit(dealer);
             final ConstraintLayout layout = findViewById(R.id.myLayout);
             moveNewCard(layout, dealerLastCard, dealer);
-
-        }
-        else
-        {
-            gameConditions();
         }
     }
 
@@ -159,26 +160,82 @@ public class MainActivity extends AppCompatActivity {
         {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.dealer_bust);
-                    clearTable();
+            timer.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
+                }
+            }, 1000);
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.push);
-                    clearTable();
+            timer.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
+                }
+            }, 1000);
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
 
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.dealer_won);
-                    clearTable();
+            timer.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
+                }
+            }, 1000);
         }
         else
         {
                 winLoss.setVisibility(View.VISIBLE);
                 winLoss.setText(R.string.player_won);
-                clearTable();
+            timer.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
+                }
+            }, 1000);
         }
     }
 
