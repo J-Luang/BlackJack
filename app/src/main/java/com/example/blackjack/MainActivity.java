@@ -64,6 +64,7 @@ public class MainActivity extends AppCompatActivity {
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
 
+        userChips.setText(userChips + Integer.toString(amountUserChips));
     }
 
     public void dealButtonClick(View view)
