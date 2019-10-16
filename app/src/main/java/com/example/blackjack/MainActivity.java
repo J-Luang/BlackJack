@@ -58,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
         dealerCardImage1 = (ImageView) findViewById(R.id.dealerCardImage1);
         dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
-        playerCardImageArray.add(playerCardImage1);
-        playerCardImageArray.add(playerCardImage2);
-        dealerCardImageArray.add(dealerCardImage1);
-        dealerCardImageArray.add(dealerCardImage2);
+        //playerCardImageArray.add(playerCardImage1);
+        //playerCardImageArray.add(playerCardImage2);
+        //dealerCardImageArray.add(dealerCardImage1);
+        //dealerCardImageArray.add(dealerCardImage2);
         deal = (Button) findViewById(R.id.deal);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
 
-        playerLastCard = findViewById(R.id.playerCardImage2);
-        dealerLastCard = findViewById(R.id.dealerCardImage2);
+        //playerLastCard = findViewById(R.id.playerCardImage2);
+        //dealerLastCard = findViewById(R.id.dealerCardImage2);
 
     }
 
@@ -81,6 +81,13 @@ public class MainActivity extends AppCompatActivity {
         Log.i("debug", "Reached 2nd");
         dealer.getHand().get(1).turnFaceDown();
         Log.i("debug", "Reached 3rd");
+        playerCardImageArray.add(playerCardImage1);
+        playerCardImageArray.add(playerCardImage2);
+        dealerCardImageArray.add(dealerCardImage1);
+        dealerCardImageArray.add(dealerCardImage2);
+        playerLastCard = findViewById(R.id.playerCardImage2);
+        dealerLastCard = findViewById(R.id.dealerCardImage2);
+
         for(int i = 0; i < 2; i++)
         {
             Log.i("debug", "Reached 4th");
@@ -91,38 +98,59 @@ public class MainActivity extends AppCompatActivity {
 
     public void hitButtonClick(View view)
     {
+        Log.i("Player", "Cards: " + player1.calculateBlackjackHandValue());
         actions.hit(player1);
-        Card playerCard = blackjackDeck.dealCard();
         final ConstraintLayout layout = findViewById(R.id.myLayout);
-        moveNewCard(playerCard, layout, playerLastCard, player1);
-        Log.i("value", "value: " + player1.calculateBlackjackHandValue());
-        if(player1.calculateBlackjackHandValue() > 21)
+
+        moveNewCard(layout, playerLastCard, player1);
+        if(player1.getHand().size() == 2 && player1.calculateBlackjackHandValue() == 21)
         {
+            stand.setVisibility(View.INVISIBLE);
+            hit.setVisibility(View.INVISIBLE);
             gameConditions();
         }
-
+        else if (player1.calculateBlackjackHandValue() > 21)
+        {
+            stand.setVisibility(View.INVISIBLE);
+            hit.setVisibility(View.INVISIBLE);
+            gameConditions();
+        }
     }
 
     public void standButton(View view)
     {
         actions.stand(player1);
+        stand.setVisibility(View.INVISIBLE);
+        hit.setVisibility(View.INVISIBLE);
         dealer.getHand().get(1).turnFaceUp();
         displayCard(dealerCardImage2, dealer.getHand().get(1));
-        if(dealer.calculateBlackjackHandValue() < 17)
+        dealerPlay();
+    }
+
+    public void dealerPlay()
+    {
+        List<Card> testCards = new ArrayList<>();
+        Card ace = new Card(Card.Rank.Ace, Card.Suit.Clubs);
+        testCards.add(ace); testCards.add(ace);
+        dealer.getHand().setHand(testCards);
+        for(int i = 0; i < 2; i++)
         {
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    actions.hit(dealer);
-                    Card playerCard = blackjackDeck.dealCard();
-                    final ConstraintLayout layout = findViewById(R.id.myLayout);
-                    moveNewCard(playerCard, layout, dealerLastCard, dealer);
-                }
-            }, 1000);
+            displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
         }
-        else
+        while(dealer.calculateBlackjackHandValue() < 27)
+        {
+            actions.hit(dealer);
+            final ConstraintLayout layout = findViewById(R.id.myLayout);
+            moveNewCard(layout, dealerLastCard, dealer);
+            Log.i("Dealer", "Dealer hand: " + dealer.calculateBlackjackHandValue());
+
+            for(int i = 0; i < dealerCardImageArray.size(); i++)
+            {
+                Log.i("Dealer", "Dealer card: " + dealer.getHand().getCards().get(i));
+                displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
+            }
+        }
+        if(dealer.calculateBlackjackHandValue() >= 27)
         {
             gameConditions();
         }
@@ -146,59 +174,100 @@ public class MainActivity extends AppCompatActivity {
             winLoss.setText(R.string.player_bust);
             timer.schedule(new TimerTask()
             {
+                @Override
                 public void run()
                 {
-                    clearTable();
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
                 }
-            }, 1000);
+            }, 5000);
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.dealer_bust);
+                    winLoss.setVisibility(View.VISIBLE);
+                    winLoss.setText(R.string.dealer_bust);
             timer.schedule(new TimerTask()
             {
+                @Override
                 public void run()
                 {
-                    clearTable();
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
                 }
-            }, 1000);
+            }, 5000);
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.push);
+                    winLoss.setVisibility(View.VISIBLE);
+                    winLoss.setText(R.string.push);
             timer.schedule(new TimerTask()
             {
+                @Override
                 public void run()
                 {
-                    clearTable();
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
                 }
-            }, 1000);
+            }, 5000);
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.dealer_won);
+
+                    winLoss.setVisibility(View.VISIBLE);
+                    winLoss.setText(R.string.dealer_won);
             timer.schedule(new TimerTask()
             {
+                @Override
                 public void run()
                 {
-                    clearTable();
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
                 }
-            }, 1000);
+            }, 5000);
         }
         else
         {
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.player_won);
+                winLoss.setVisibility(View.VISIBLE);
+                winLoss.setText(R.string.player_won);
             timer.schedule(new TimerTask()
             {
+                @Override
                 public void run()
                 {
-                    clearTable();
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
                 }
-            }, 1000);
+            }, 5000);
         }
     }
 
@@ -214,11 +283,19 @@ public class MainActivity extends AppCompatActivity {
         deal.setVisibility(View.VISIBLE);
         player1.discardHand();
         dealer.discardHand();
+
+        for(ImageView imageView : playerCardImageArray) {
+            imageView.setVisibility(View.INVISIBLE);
+        }
+        for(ImageView imageView : dealerCardImageArray) {
+            imageView.setVisibility(View.INVISIBLE);
+        }
+
         playerCardImageArray.clear();
         dealerCardImageArray.clear();
     }
 
-    private void moveNewCard(Card playerCard, ConstraintLayout layout, ImageView lastCard, Player player)
+    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
     {
         ImageView image;
         if(player == player1)
@@ -242,7 +319,14 @@ public class MainActivity extends AppCompatActivity {
 
         image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
         image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-        displayCard(image, playerCard);
+        if(player == player1)
+        {
+            displayCard(image, player1.getHand().getCards().get(playerCardImageArray.size() - 1));
+        }
+        else
+        {
+            displayCard(image, dealer.getHand().getCards().get(dealerCardImageArray.size() - 1));
+        }
         layout.addView(image);
         if(player == player1)
         {
