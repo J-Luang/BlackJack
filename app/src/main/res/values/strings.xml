@@ -15,4 +15,5 @@
     <string name="push">push</string>
     <string name="player_won">You won!</string>
     <string name="dealer_won">Dealer wins!</string>
+    <color name="green">#008000</color>
 </resources>
