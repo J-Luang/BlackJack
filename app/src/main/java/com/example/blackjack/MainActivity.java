@@ -12,9 +12,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -23,6 +20,8 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView playerCardTextView;
     private TextView winLoss;
+    private TextView userChips;
+    private int amountUserChips;
     private ImageView playerCardImage1;
     private ImageView playerCardImage2;
     private ImageView dealerCardImage1;
@@ -30,7 +29,7 @@ public class MainActivity extends AppCompatActivity {
     ImageView playerLastCard;
     ImageView dealerLastCard;
     private BlackJackActions actions;
-    private Button deal;
+    private Button bet;
     private Button hit;
     private Button stand;
     private Deck blackjackDeck;
@@ -45,6 +44,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        amountUserChips = 500;
+        userChips = findViewById(R.id.userChips);
+
         actions = new BlackJackActions(blackjackDeck, player1, dealer);
         blackjackDeck = new Deck(1);
         player1 = new Player(blackjackDeck);
@@ -58,22 +60,16 @@ public class MainActivity extends AppCompatActivity {
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
         dealerCardImage1 = (ImageView) findViewById(R.id.dealerCardImage1);
         dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
-        //playerCardImageArray.add(playerCardImage1);
-        //playerCardImageArray.add(playerCardImage2);
-        //dealerCardImageArray.add(dealerCardImage1);
-        //dealerCardImageArray.add(dealerCardImage2);
-        deal = (Button) findViewById(R.id.deal);
+        bet = (Button) findViewById(R.id.bet);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
 
-        //playerLastCard = findViewById(R.id.playerCardImage2);
-        //dealerLastCard = findViewById(R.id.dealerCardImage2);
-
+        userChips.setText(userChips + Integer.toString(amountUserChips));
     }
 
     public void dealButtonClick(View view)
     {
-        deal.setVisibility(View.INVISIBLE);
+        bet.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
         Log.i("debug", "Reached 1st");
@@ -280,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
         dealerCardImage2.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.INVISIBLE);
         stand.setVisibility(View.INVISIBLE);
-        deal.setVisibility(View.VISIBLE);
+        bet.setVisibility(View.VISIBLE);
         player1.discardHand();
         dealer.discardHand();
 
