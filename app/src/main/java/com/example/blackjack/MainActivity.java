@@ -6,9 +6,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -97,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         Card playerCard = blackjackDeck.dealCard();
         final ConstraintLayout layout = findViewById(R.id.myLayout);
         moveNewCard(playerCard, layout, playerLastCard, player1);
+        Log.i("value", "value: " + player1.calculateBlackjackHandValue());
         if(player1.calculateBlackjackHandValue() > 21)
         {
             gameConditions();

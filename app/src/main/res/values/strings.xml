@@ -2,6 +2,7 @@
     <string name="app_name">BlackJack</string>
     <string name="deal">Deal</string>
     <string name="hit">Hit</string>
+    <string name="green_chip">Green casino chip worth $25</string>
     <string name="the_player_s_third_card_dealt">The player\'s third card dealt</string>
     <string name="the_player_s_second_card_dealt">The player\'s second card dealt</string>
     <string name="the_player_s_first_card_dealt">The player\'s first card dealt</string>

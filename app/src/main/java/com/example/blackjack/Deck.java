@@ -1,4 +1,6 @@
 package com.example.blackjack;
+import android.util.Log;
+
 import java.util.*;
 
 public class Deck
@@ -33,6 +35,7 @@ public class Deck
     {
         if (!cards.isEmpty())
         {
+            Log.i("value", String.valueOf(cards));
             return cards.remove(0);
         }
         else

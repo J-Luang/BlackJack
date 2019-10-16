@@ -27,10 +27,14 @@ public class BlackJackActions
     public void hit(Player player)
     {
         player.drawCards(1);
-        player.checkIfPlayerBusts();
     }
 
     public void doubleDown()
+    {
+
+    }
+
+    public void bet()
     {
 
     }
