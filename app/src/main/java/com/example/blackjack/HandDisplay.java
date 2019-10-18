@@ -34,12 +34,10 @@ public class HandDisplay
     // Checks for new cards in hand and creates a cardImage to add to cardImages
     private void addNewCardImages()
     {
-        Log.i("displaycard", "hand size: " + hand.size());
         for(int cardIndex = 0; cardIndex < hand.size(); cardIndex++)
         {
             if(cardIndex >= cardImages.size())
             {
-                Log.i("displaycard", "cardImages size: " + cardImages.size());
                 CardImage cardImage = new CardImage(activity);
                 cardImage.create(lastCardX, y, hand.get(cardIndex), Layout);
                 cardImages.add(cardImage);

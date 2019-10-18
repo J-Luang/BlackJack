@@ -1,6 +1,8 @@
 package com.example.blackjack;
 
 import android.app.Activity;
+import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -15,13 +17,20 @@ public class CardImage
     Activity activity;
     private Card card;
     private ImageView imageView;
-    private final static int HEIGHT = 427;
-    private final static int WIDTH = 298;
+    private static int HEIGHT; // Height and width are not final, but are constant after they are
+    private static int WIDTH; // set based on the screen size
     boolean faceUp;
 
     public CardImage(Activity activity)
     {
         this.activity = activity;
+
+        // This code sets the height and width of each card based on screen size.
+        DisplayMetrics displaymetrics = new DisplayMetrics();
+        activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+        // Values were calculated using previous card dimensions of 427 x 298 and a screen size of 1440 x 2392
+        HEIGHT = (int) ((double) displaymetrics.heightPixels / 3.372365);
+        WIDTH = (int) ((double) displaymetrics.widthPixels / 8.026846);
     }
 
     public void create(int x, int y, Card card, ConstraintLayout layout)
