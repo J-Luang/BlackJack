@@ -3,11 +3,13 @@ package com.example.blackjack;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -16,10 +18,16 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity{
 
-    private TextView playerCardTextView;
+    private ImageView whiteChip;
+    private ImageView redChip;
+    private ImageView blueChip;
+    private ImageView greenChip;
+    private ImageView blackChip;
     private TextView winLoss;
+    private TextView betText;
+    private int betAmount;
     private TextView userChips;
     private int amountUserChips;
     private ImageView playerCardImage1;
@@ -45,8 +53,10 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        betAmount = 0;
         amountUserChips = 500;
         userChips = findViewById(R.id.userChips);
+        betText = findViewById(R.id.betText);
 
         actions = new BlackJackActions(blackjackDeck, player1, dealer);
         blackjackDeck = new Deck(1);
@@ -64,6 +74,16 @@ public class MainActivity extends AppCompatActivity {
         handDisplay.display();
         // ----------------------------- End Test Stuff ---------------------------------
 
+        whiteChip = (ImageView) findViewById(R.id.whiteChip);
+        redChip = (ImageView) findViewById(R.id.redChip);
+        blueChip = (ImageView) findViewById(R.id.blueChip);
+        greenChip = (ImageView) findViewById(R.id.greenChip);
+        blackChip = (ImageView) findViewById(R.id.blackChip);
+        whiteChip.setOnClickListener(chipButtonListener);
+        redChip.setOnClickListener(chipButtonListener);
+        blueChip.setOnClickListener(chipButtonListener);
+        greenChip.setOnClickListener(chipButtonListener);
+        blackChip.setOnClickListener(chipButtonListener);
         winLoss = (TextView) findViewById(R.id.gameWinCheck);
         playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
         playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
@@ -75,9 +95,22 @@ public class MainActivity extends AppCompatActivity {
 
         userChips.setText(userChips + Integer.toString(amountUserChips));
     }
+    private View.OnClickListener chipButtonListener = new View.OnClickListener()
+    {
+        public void onClick(View view)
+        {
+            betAmount = actions.bet(betAmount, view.getId());
+            betText.setText(Integer.toString(betAmount));
+        }
+    };
 
     public void dealButtonClick(View view)
     {
+        whiteChip.setVisibility(View.INVISIBLE);
+        redChip.setVisibility(View.INVISIBLE);
+        blueChip.setVisibility(View.INVISIBLE);
+        greenChip.setVisibility(View.INVISIBLE);
+        blackChip.setVisibility(View.INVISIBLE);
         bet.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
@@ -283,11 +316,18 @@ public class MainActivity extends AppCompatActivity {
         playerCardImage2.setVisibility(View.INVISIBLE);
         dealerCardImage1.setVisibility(View.INVISIBLE);
         dealerCardImage2.setVisibility(View.INVISIBLE);
+        whiteChip.setVisibility(View.VISIBLE);
+        redChip.setVisibility(View.VISIBLE);
+        blueChip.setVisibility(View.VISIBLE);
+        greenChip.setVisibility(View.VISIBLE);
+        blackChip.setVisibility(View.VISIBLE);
         hit.setVisibility(View.INVISIBLE);
         stand.setVisibility(View.INVISIBLE);
         bet.setVisibility(View.VISIBLE);
         player1.discardHand();
         dealer.discardHand();
+        betAmount = 0;
+        betText.setText(Integer.toString(betAmount));
 
         for(ImageView imageView : playerCardImageArray) {
             imageView.setVisibility(View.INVISIBLE);

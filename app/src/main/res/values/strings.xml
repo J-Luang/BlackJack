@@ -2,7 +2,6 @@
     <string name="app_name">BlackJack</string>
     <string name="bet">Bet</string>
     <string name="hit">Hit</string>
-    <string name="green_chip">Green casino chip worth $25</string>
     <string name="the_player_s_third_card_dealt">The player\'s third card dealt</string>
     <string name="the_player_s_second_card_dealt">The player\'s second card dealt</string>
     <string name="the_player_s_first_card_dealt">The player\'s first card dealt</string>
@@ -15,9 +14,7 @@
     <string name="push">push</string>
     <string name="player_won">You won!</string>
     <string name="dealer_won">Dealer wins!</string>
-<<<<<<< HEAD
     <color name="green">#008000</color>
-=======
     <string name="chip_value_of_one">Chip value of one.</string>
     <string name="chip_value_of_five">Chip value of five.</string>
     <string name="chip_value_of_ten">Chip value of ten.</string>
@@ -25,5 +22,4 @@
     <string name="chip_value_of_one_hundred">Chip value of one-hundred.</string>
     <string name="the_amount_of_chips_the_user_has">The amount of chips the user has.</string>
     <string name="amount_of_chips">Amount of Chips: </string>
->>>>>>> da77b7eed629f1f2d1c55d039c7f5ea8c079204e
 </resources>
