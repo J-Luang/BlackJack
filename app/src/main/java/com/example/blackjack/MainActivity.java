@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Timer timer;
     private List<ImageView> playerCardImageArray;
     private List<ImageView> dealerCardImageArray;
+    private HandDisplay handDisplay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,14 @@ public class MainActivity extends AppCompatActivity {
         timer = new Timer();
         playerCardImageArray = new ArrayList<>();
         dealerCardImageArray = new ArrayList<>();
+
+        // ------------------------------- Test Stuff -----------------------------------
+        final ConstraintLayout layout = findViewById(R.id.myLayout);
+        handDisplay = new HandDisplay(this);
+        actions.deal(player1, dealer);
+        handDisplay.create(0, 0, player1.hand, layout);
+        handDisplay.display();
+        // ----------------------------- End Test Stuff ---------------------------------
 
         winLoss = (TextView) findViewById(R.id.gameWinCheck);
         playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
