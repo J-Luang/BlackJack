@@ -49,27 +49,6 @@ public class BlackJackActions
             }
         }
         return betAmount;
-        /*if(chip == whiteChip)
-        {
-            betAmount += betAmountArray[0];
-        }
-        else if(view == redChip)
-        {
-            betAmount += betAmountArray[1];
-        }
-        else if(view == blueChip)
-        {
-            betAmount += betAmountArray[2];
-        }
-        else if(view == greenChip)
-        {
-            betAmount += betAmountArray[3];
-        }
-        else if(view == blackChip)
-        {
-            betAmount +=betAmountArray[4];
-        }
-*/
     }
 
     public void split()

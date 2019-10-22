@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity{
     private int betAmount;
     private TextView userChips;
     private int amountUserChips;
+    private int blackJackValue;
+    private int dealerHitValue;
     private ImageView playerCardImage1;
     private ImageView playerCardImage2;
     private ImageView dealerCardImage1;
@@ -52,6 +54,8 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        dealerHitValue = 17;
+        blackJackValue = 21;
         betAmount = 0;
         amountUserChips = 500;
         userChips = findViewById(R.id.userChips);
@@ -132,13 +136,13 @@ public class MainActivity extends AppCompatActivity{
         final ConstraintLayout layout = findViewById(R.id.myLayout);
 
         moveNewCard(layout, playerLastCard, player1);
-        if(player1.getHand().size() == 2 && player1.calculateBlackjackHandValue() == 21)
+        if(player1.getHand().size() == 2 && player1.calculateBlackjackHandValue() == blackJackValue)
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
             gameConditions();
         }
-        else if (player1.calculateBlackjackHandValue() > 21)
+        else if (player1.calculateBlackjackHandValue() > blackJackValue)
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
@@ -158,18 +162,18 @@ public class MainActivity extends AppCompatActivity{
 
     public void dealerPlay()
     {
-        List<Card> testCards = new ArrayList<>();
-        Card ace = new Card(Card.Rank.Ace, Card.Suit.Clubs);
-        testCards.add(ace); testCards.add(ace);
-        dealer.getHand().setHand(testCards);
+        //List<Card> testCards = new ArrayList<>();
+        //Card ace = new Card(Card.Rank.Ace, Card.Suit.Clubs);
+        //testCards.add(ace); testCards.add(ace);
+        //dealer.getHand().setHand(testCards);
         for(int i = 0; i < 2; i++)
         {
             displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
         }
-        while(dealer.calculateBlackjackHandValue() < 27)
+        final ConstraintLayout layout = findViewById(R.id.myLayout);
+        while(dealer.calculateBlackjackHandValue() < dealerHitValue)
         {
             actions.hit(dealer);
-            final ConstraintLayout layout = findViewById(R.id.myLayout);
             moveNewCard(layout, dealerLastCard, dealer);
             Log.i("Dealer", "Dealer hand: " + dealer.calculateBlackjackHandValue());
 
@@ -179,9 +183,9 @@ public class MainActivity extends AppCompatActivity{
                 displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
             }
         }
-        if(dealer.calculateBlackjackHandValue() >= 27)
+        if(dealer.calculateBlackjackHandValue() >= blackJackValue)
         {
-            gameConditions();
+            //gameConditions();
         }
     }
 
@@ -197,7 +201,7 @@ public class MainActivity extends AppCompatActivity{
     {
         int playerHandValue = player1.calculateBlackjackHandValue();
         int dealerHandValue = dealer.calculateBlackjackHandValue();
-        if(player1.calculateBlackjackHandValue() > 21)
+        if(player1.calculateBlackjackHandValue() > blackJackValue)
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setText(R.string.player_bust);
@@ -217,7 +221,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }, 5000);
         }
-        else if(playerHandValue < 21 && dealerHandValue > 21)
+        else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
         {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.dealer_bust);
@@ -237,7 +241,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }, 5000);
         }
-        else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
+        else if(playerHandValue < blackJackValue && playerHandValue == dealerHandValue)
         {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.push);
@@ -257,7 +261,7 @@ public class MainActivity extends AppCompatActivity{
                 }
             }, 5000);
         }
-        else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
+        else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
         {
 
                     winLoss.setVisibility(View.VISIBLE);
@@ -331,7 +335,7 @@ public class MainActivity extends AppCompatActivity{
         dealerCardImageArray.clear();
     }
 
-    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
+    public void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
     {
         ImageView image;
         if(player == player1)
@@ -346,6 +350,8 @@ public class MainActivity extends AppCompatActivity{
         final float currentY = lastCard.getY();
         final int currentHeight = lastCard.getHeight();
         final int currentWidth = lastCard.getWidth();
+        Log.i("dimensions", String.valueOf(currentHeight));
+        Log.i("dimensions", String.valueOf(currentWidth));
         final float separation = 160;
 
         image.requestLayout();
@@ -361,15 +367,18 @@ public class MainActivity extends AppCompatActivity{
         }
         else
         {
+            Log.i("dealer", "display Card");
             displayCard(image, dealer.getHand().getCards().get(dealerCardImageArray.size() - 1));
         }
         layout.addView(image);
         if(player == player1)
         {
+            Log.i("player", "Change Player Last Card");
             playerLastCard = image;
         }
         else
         {
+            Log.i("player", "Change Dealer Last Card");
             dealerLastCard = image;
         }
     }
