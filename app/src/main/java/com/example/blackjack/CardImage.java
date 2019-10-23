@@ -11,6 +11,7 @@ import android.widget.RelativeLayout;
 
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+// A lot of the code in this class based on https://stackoverflow.com/questions/22115021/android-create-imageview-outside-mainactivity
 public class CardImage
 {
     ConstraintLayout Layout;
@@ -26,6 +27,7 @@ public class CardImage
         this.activity = activity;
 
         // This code sets the height and width of each card based on screen size.
+        // Taken from https://stackoverflow.com/questions/12780384/is-it-safe-to-use-getwidth-on-display-even-though-its-deprecated
         DisplayMetrics displaymetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
         // Values were calculated using previous card dimensions of 427 x 298 and a screen size of 1440 x 2392
