@@ -51,6 +51,21 @@
         app:layout_constraintVertical_bias="0.633"
         />
 
+    <Button
+        android:id="@+id/doubleDown"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:contentDescription="@string/double_down_button"
+        android:onClick="doubleDownButton"
+        android:text="@string/double_down"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.919"
+        app:layout_constraintStart_toStartOf="@+id/userChips"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.454" />
+
     <ImageView
         android:id="@+id/dealerCardImage1"
         android:layout_width="85dp"
@@ -126,15 +141,20 @@
 
     <TextView
         android:id="@+id/userChips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="40dp"
-        android:layout_marginRight="40dp"
-        android:layout_marginBottom="24dp"
+        android:layout_width="149dp"
+        android:layout_height="27dp"
+        android:layout_marginBottom="328dp"
+        android:layout_marginEnd="512dp"
+        android:layout_marginRight="512dp"
         android:contentDescription="@string/the_amount_of_chips_the_user_has"
-        android:text="@string/amount_of_chips"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.228"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.285" />
 
     <ImageView
         android:id="@+id/whiteChip"
@@ -217,9 +237,9 @@
         android:layout_height="38dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.128"
+        app:layout_constraintHorizontal_bias="0.115"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.498" />
+        app:layout_constraintVertical_bias="0.53" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

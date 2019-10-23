@@ -32,9 +32,11 @@ public class BlackJackActions
         player.drawCards(1);
     }
 
-    public void doubleDown()
+    public int doubleDown(Player player, int betAmount)
     {
-
+        hit(player);
+        betAmount *= 2;
+        return betAmount;
     }
 
     public int bet(int betAmount, int chip)
@@ -49,6 +51,7 @@ public class BlackJackActions
             }
         }
         return betAmount;
+        //set userChips to "" - bet amount
     }
 
     public void split()
