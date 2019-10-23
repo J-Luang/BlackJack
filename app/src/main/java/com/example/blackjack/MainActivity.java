@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -26,7 +27,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageView greenChip;
     private ImageView blackChip;
     private TextView winLoss;
-    private TextView betText;
+    private TextView warningText;
     private int betAmount;
     private TextView userChips;
     private int amountUserChips;
@@ -48,6 +49,8 @@ public class MainActivity extends AppCompatActivity{
     private List<ImageView> playerCardImageArray;
     private List<ImageView> dealerCardImageArray;
     private int dealerMinLimit;
+    private Switch plusMinusBet;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +60,6 @@ public class MainActivity extends AppCompatActivity{
         dealerMinLimit = 17;
         betAmount = 0;
         amountUserChips = 500;
-        betText = findViewById(R.id.betText);
         userChips = findViewById(R.id.userChips);
         actions = new BlackJackActions(blackjackDeck, player1, dealer);
         blackjackDeck = new Deck(1);
@@ -85,16 +87,23 @@ public class MainActivity extends AppCompatActivity{
         bet = (Button) findViewById(R.id.bet);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
+        plusMinusBet = findViewById(R.id.plusMinusBet);
         textUserAmount = "Amount of chips: " + amountUserChips;
         userChips.setText(textUserAmount);
+    }
+
+    private Boolean getSwitchState()
+    {
+        return plusMinusBet.isChecked();
     }
 
     private View.OnClickListener chipButtonListener = new View.OnClickListener()
     {
         public void onClick(View view)
         {
-            betAmount = actions.bet(betAmount, view.getId());
-            betText.setText(Integer.toString(betAmount));
+            betAmount = actions.bet(betAmount, view.getId(), getSwitchState());
+            bet.setText("Bet: " + betAmount);
+            checkChips();
         }
     };
 
@@ -110,6 +119,7 @@ public class MainActivity extends AppCompatActivity{
         bet.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
+        plusMinusBet.setVisibility(View.INVISIBLE);
         actions.deal(player1, dealer);
         dealer.getHand().get(1).turnFaceDown();
         playerCardImageArray.add(playerCardImage1);
@@ -202,7 +212,7 @@ public class MainActivity extends AppCompatActivity{
         dealer.discardHand();
         amountUserChips = amountUserChips - betAmount;
         betAmount = 0;
-        betText.setText(Integer.toString(betAmount));
+        bet.setText("Bet");
 
         for(ImageView imageView : playerCardImageArray) {
             imageView.setVisibility(View.INVISIBLE);
@@ -234,15 +244,16 @@ public class MainActivity extends AppCompatActivity{
                         public void run()
                         {
                             clearTable();
+                            amountUserChips += betAmount * 2;
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
-                    winLoss.setVisibility(View.VISIBLE);
-                    winLoss.setText(R.string.dealer_bust);
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.dealer_bust);
             timer.schedule(new TimerTask()
             {
                 @Override
@@ -257,12 +268,12 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
-                    winLoss.setVisibility(View.VISIBLE);
-                    winLoss.setText(R.string.push);
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.push);
             timer.schedule(new TimerTask()
             {
                 @Override
@@ -277,13 +288,13 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
 
-                    winLoss.setVisibility(View.VISIBLE);
-                    winLoss.setText(R.string.dealer_won);
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.dealer_won);
             timer.schedule(new TimerTask()
             {
                 @Override
@@ -298,12 +309,12 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else
         {
-                winLoss.setVisibility(View.VISIBLE);
-                winLoss.setText(R.string.player_won);
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.player_won);
             timer.schedule(new TimerTask()
             {
                 @Override
@@ -318,7 +329,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
     }
 
@@ -372,6 +383,29 @@ public class MainActivity extends AppCompatActivity{
         else
         {
             dealerLastCard = image;
+        }
+    }
+
+    private void checkChips()
+    {
+        if(amountUserChips < 0)
+        {
+            warningText.setText("You ran out of chips.");
+            bet.setClickable(false);
+        }
+        else if(betAmount <= 0)
+        {
+            warningText.setText("You cannot bet nothing!");
+            bet.setClickable(false);
+        }
+        else if(betAmount > amountUserChips)
+        {
+            warningText.setText("You cannot bet more chips than you have!");
+            bet.setClickable(false);
+        }
+        else
+        {
+            bet.setClickable(true);
         }
     }
 
