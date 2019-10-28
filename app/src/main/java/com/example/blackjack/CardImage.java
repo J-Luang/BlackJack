@@ -43,8 +43,8 @@ public class CardImage
         // Taken from https://stackoverflow.com/questions/12780384/is-it-safe-to-use-getwidth-on-display-even-though-its-deprecated
         displayMetrics = new DisplayMetrics();
         activity.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int x = (int) Math.round((double) displayMetrics.heightPixels * xPercent);
-        int y = (int) Math.round((double) displayMetrics.widthPixels * yPercent);
+        int x = (int) Math.round((double) displayMetrics.widthPixels * xPercent);
+        int y = (int) Math.round((double) displayMetrics.heightPixels * yPercent);
         imageView.setX(x);
         imageView.setY(y);
 

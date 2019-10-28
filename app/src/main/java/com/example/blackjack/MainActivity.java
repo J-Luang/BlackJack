@@ -115,9 +115,9 @@ public class MainActivity extends AppCompatActivity{
         // ------------------------------- New Stuff -----------------------------------
         actions.deal(player, dealer);
         //0.44861, 0.33988
-        playerHandDisplay.create(0.44861, 0.33988, player.hand, layout);
+        playerHandDisplay.create(0.33988, 0.55, player.hand, layout);
         playerHandDisplay.display();
-        dealerHandDisplay.create(0.44861, 0.1, dealer.hand, layout);
+        dealerHandDisplay.create(0.33988, 0.1, dealer.hand, layout);
         dealerHandDisplay.flipSecondCard();
         dealerHandDisplay.display();
         // ----------------------------- End New Stuff ---------------------------------
