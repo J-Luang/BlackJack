@@ -50,6 +50,7 @@ public class MainActivity extends AppCompatActivity{
     private int dealerMinLimit;
     private Switch plusMinusBet;
     private ConstraintLayout layout;
+    private Button doubleDown;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +71,7 @@ public class MainActivity extends AppCompatActivity{
         playerHandDisplay = new HandDisplay(this);
         dealerHandDisplay = new HandDisplay(this);
         layout = findViewById(R.id.myLayout);
+        doubleDown = findViewById(R.id.doubleDown);
 
         whiteChip = (ImageView) findViewById(R.id.whiteChip);
         redChip = (ImageView) findViewById(R.id.redChip);
@@ -249,7 +251,7 @@ public class MainActivity extends AppCompatActivity{
         dealer.discardHand();
         amountUserChips = amountUserChips - betAmount;
         betAmount = 0;
-        bet.setText(Integer.toString(betAmount));
+        bet.setText("Bet");
 
 //        for(ImageView imageView : playerCardImageArray) {
 //            imageView.setVisibility(View.INVISIBLE);
