@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
@@ -48,6 +49,7 @@ public class MainActivity extends AppCompatActivity{
     private List<ImageView> playerCardImageArray;
     private List<ImageView> dealerCardImageArray;
     private int dealerMinLimit;
+    private Switch plusMinusBet;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +59,6 @@ public class MainActivity extends AppCompatActivity{
         dealerMinLimit = 17;
         betAmount = 0;
         amountUserChips = 500;
-        betText = findViewById(R.id.betText);
         userChips = findViewById(R.id.userChips);
         actions = new BlackJackActions(blackjackDeck, player1, dealer);
         blackjackDeck = new Deck(1);
@@ -89,11 +90,16 @@ public class MainActivity extends AppCompatActivity{
         userChips.setText(textUserAmount);
     }
 
+    public Boolean getSwitchState()
+    {
+        return plusMinusBet.isChecked();
+    }
+
     private View.OnClickListener chipButtonListener = new View.OnClickListener()
     {
         public void onClick(View view)
         {
-            betAmount = actions.bet(betAmount, view.getId());
+            betAmount = actions.bet(betAmount, view.getId(), getSwitchState());
             betText.setText(Integer.toString(betAmount));
         }
     };
