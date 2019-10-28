@@ -14,6 +14,8 @@
     <string name="push">push</string>
     <string name="player_won">You won!</string>
     <string name="dealer_won">Dealer wins!</string>
+    <string name="double_down">Double Down</string>
+    <string name="double_down_button">Double down button</string>
     <color name="green">#008000</color>
     <string name="chip_value_of_one">Chip value of one.</string>
     <string name="chip_value_of_five">Chip value of five.</string>
