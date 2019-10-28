@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity{
         stand = (Button) findViewById(R.id.standButton);
         textUserAmount = "Amount of chips: " + amountUserChips;
         userChips.setText(textUserAmount);
+        plusMinusBet = findViewById(R.id.plusMinusBet);
     }
 
     public Boolean getSwitchState()
@@ -100,7 +101,7 @@ public class MainActivity extends AppCompatActivity{
         public void onClick(View view)
         {
             betAmount = actions.bet(betAmount, view.getId(), getSwitchState());
-            bet.setText(Integer.toString(betAmount));
+            bet.setText("Bet: " + Integer.toString(betAmount));
         }
     };
 
@@ -208,7 +209,7 @@ public class MainActivity extends AppCompatActivity{
         dealer.discardHand();
         amountUserChips = amountUserChips - betAmount;
         betAmount = 0;
-        betText.setText(Integer.toString(betAmount));
+        bet.setText(Integer.toString(betAmount));
 
         for(ImageView imageView : playerCardImageArray) {
             imageView.setVisibility(View.INVISIBLE);
