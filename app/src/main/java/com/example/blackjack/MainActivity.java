@@ -100,7 +100,7 @@ public class MainActivity extends AppCompatActivity{
         public void onClick(View view)
         {
             betAmount = actions.bet(betAmount, view.getId(), getSwitchState());
-            betText.setText(Integer.toString(betAmount));
+            bet.setText(Integer.toString(betAmount));
         }
     };
 
@@ -240,10 +240,11 @@ public class MainActivity extends AppCompatActivity{
                         public void run()
                         {
                             clearTable();
+                            amountUserChips += betAmount *= 2;
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else if(playerHandValue < 21 && dealerHandValue > 21)
         {
@@ -263,7 +264,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
@@ -283,7 +284,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
@@ -304,7 +305,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else
         {
@@ -324,7 +325,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
     }
 
