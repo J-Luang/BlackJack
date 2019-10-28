@@ -8,6 +8,8 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity{
     private int betAmount;
     private TextView userChips;
     private int amountUserChips;
-    private int blackJackValue;
     private String textUserAmount;
 //    private ImageView playerCardImage1;
 //    private ImageView playerCardImage2;
@@ -38,7 +39,6 @@ public class MainActivity extends AppCompatActivity{
     private Button bet;
     private Button hit;
     private Button stand;
-    private Button doubleDown;
     private Deck blackjackDeck;
     private Player player;
     private Player dealer;
@@ -48,6 +48,7 @@ public class MainActivity extends AppCompatActivity{
     private HandDisplay playerHandDisplay;
     private HandDisplay dealerHandDisplay;
     private int dealerMinLimit;
+    private Switch plusMinusBet;
     private ConstraintLayout layout;
 
     @Override
@@ -55,11 +56,9 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        blackJackValue = 21;
         dealerMinLimit = 17;
         betAmount = 0;
         amountUserChips = 500;
-        betText = findViewById(R.id.betText);
         userChips = findViewById(R.id.userChips);
         actions = new BlackJackActions(blackjackDeck, player, dealer);
         blackjackDeck = new Deck(1);
@@ -90,17 +89,21 @@ public class MainActivity extends AppCompatActivity{
         bet = (Button) findViewById(R.id.bet);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
-        doubleDown = (Button) findViewById(R.id.doubleDown);
         textUserAmount = "Amount of chips: " + amountUserChips;
         userChips.setText(textUserAmount);
+    }
+
+    public Boolean getSwitchState()
+    {
+        return plusMinusBet.isChecked();
     }
 
     private View.OnClickListener chipButtonListener = new View.OnClickListener()
     {
         public void onClick(View view)
         {
-            betAmount = actions.bet(betAmount, view.getId());
-            betText.setText(Integer.toString(betAmount));
+            betAmount = actions.bet(betAmount, view.getId(), getSwitchState());
+            bet.setText(Integer.toString(betAmount));
         }
     };
 
@@ -154,14 +157,12 @@ public class MainActivity extends AppCompatActivity{
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
-            doubleDown.setVisibility(View.INVISIBLE);
             gameConditions();
         }
         else if (player.calculateBlackjackHandValue() > 21)
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
-            doubleDown.setVisibility(View.INVISIBLE);
             gameConditions();
         }
     }
@@ -279,12 +280,13 @@ public class MainActivity extends AppCompatActivity{
                         public void run()
                         {
                             clearTable();
+                            amountUserChips += betAmount *= 2;
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
-        else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
+        else if(playerHandValue < 21 && dealerHandValue > 21)
         {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.dealer_bust);
@@ -302,9 +304,9 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
-        else if(playerHandValue <= blackJackValue && playerHandValue == dealerHandValue)
+        else if(playerHandValue < 21 && playerHandValue == dealerHandValue)
         {
                     winLoss.setVisibility(View.VISIBLE);
                     winLoss.setText(R.string.push);
@@ -322,9 +324,9 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
-        else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
+        else if(playerHandValue < 21 && dealerHandValue > playerHandValue)
         {
 
                     winLoss.setVisibility(View.VISIBLE);
@@ -343,7 +345,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
         else
         {
@@ -363,7 +365,7 @@ public class MainActivity extends AppCompatActivity{
                         }
                     });
                 }
-            }, 5000);
+            }, 1000);
         }
     }
 
@@ -375,7 +377,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-    //public void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
 
 //    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
 //    {
