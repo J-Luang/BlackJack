@@ -13,22 +13,21 @@ public class HandDisplay
     Activity activity;
     private Hand hand;
     private List<CardImage> cardImages;
-    private int lastCardX;
-    private int y;
-    private final float OFFSET = 160;
+    private double lastCardXPercent;
+    private double yPercent;
 
     HandDisplay(Activity activity)
     {
         this.activity = activity;
     }
 
-    public void create(int x, int y, Hand hand, ConstraintLayout layout)
+    public void create(double xPercent, double yPercent, Hand hand, ConstraintLayout layout)
     {
         Layout = layout;
         this.hand = hand;
         cardImages = new ArrayList<>();
-        lastCardX = x;
-        this.y = y;
+        lastCardXPercent = xPercent;
+        this.yPercent = yPercent;
     }
 
     // Checks for new cards in hand and creates a cardImage to add to cardImages
@@ -39,9 +38,9 @@ public class HandDisplay
             if(cardIndex >= cardImages.size())
             {
                 CardImage cardImage = new CardImage(activity);
-                cardImage.create(lastCardX, y, hand.get(cardIndex), Layout);
+                cardImage.create(lastCardXPercent, yPercent, hand.get(cardIndex), Layout);
                 cardImages.add(cardImage);
-                lastCardX += OFFSET;
+                lastCardXPercent += cardImage.getOFFSET();
             }
         }
     }
