@@ -32,13 +32,13 @@ public class BlackJackActions
         player.drawCards(1);
     }
 
-    public int doubleDown(int betAmount)
+    public double doubleDown(double betAmount)
     {
         betAmount *= 2;
         return betAmount;
     }
 
-    public int bet(int betAmount, int chip, boolean switchState)
+    public double bet(double betAmount, double chip, boolean switchState, double amountUserChips)
     {
         int[] betChipsArray = new int[]{R.id.whiteChip, R.id.redChip, R.id.blueChip, R.id.greenChip, R.id.blackChip};
         int[] betAmountArray = new int[]{1, 5, 10, 25, 100};
@@ -47,13 +47,15 @@ public class BlackJackActions
             Log.i("Switch","state: " + switchState);
             if(chip == betChipsArray[i])
             {
-                if(!switchState)
+                if(!switchState && (betAmount + betAmountArray[i]) <= amountUserChips)
                 {
                     betAmount += betAmountArray[i];
                 }
-                else
+                else if(switchState)
                 {
+                    if ((betAmount - betAmountArray[i]) >= 0)
                     betAmount -= betAmountArray[i];
+                    else betAmount = 0;
                 }
             }
         }
