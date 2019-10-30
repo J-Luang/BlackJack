@@ -35,7 +35,7 @@ public class Deck
     {
         if (!cards.isEmpty())
         {
-            Log.i("value", String.valueOf(cards));
+            Log.i("PlayerHand", String.valueOf(cards));
             return cards.remove(0);
         }
         else
