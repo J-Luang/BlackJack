@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity{
     private ImageView blueChip;
     private ImageView greenChip;
     private ImageView blackChip;
+
     private TextView winLoss;
     private TextView betText;
     private int betAmount;
@@ -30,12 +31,6 @@ public class MainActivity extends AppCompatActivity{
     private TextView userChips;
     private int amountUserChips;
     private String textUserAmount;
-//    private ImageView playerCardImage1;
-//    private ImageView playerCardImage2;
-//    private ImageView dealerCardImage1;
-//    private ImageView dealerCardImage2;
-//    ImageView playerLastCard;
-//    ImageView dealerLastCard;
     private BlackJackActions actions;
     private Button bet;
     private Button hit;
@@ -44,8 +39,6 @@ public class MainActivity extends AppCompatActivity{
     private Player player;
     private Player dealer;
     private Timer timer;
-//    private List<ImageView> playerCardImageArray;
-//    private List<ImageView> dealerCardImageArray;
     private HandDisplay playerHandDisplay;
     private HandDisplay dealerHandDisplay;
     private int dealerMinLimit;
@@ -68,8 +61,6 @@ public class MainActivity extends AppCompatActivity{
         player = new Player(blackjackDeck);
         dealer = new Player(blackjackDeck);
         timer = new Timer();
-//        playerCardImageArray = new ArrayList<>();
-//        dealerCardImageArray = new ArrayList<>();
         playerHandDisplay = new HandDisplay(this);
         dealerHandDisplay = new HandDisplay(this);
         layout = findViewById(R.id.myLayout);
@@ -80,16 +71,14 @@ public class MainActivity extends AppCompatActivity{
         blueChip = (ImageView) findViewById(R.id.blueChip);
         greenChip = (ImageView) findViewById(R.id.greenChip);
         blackChip = (ImageView) findViewById(R.id.blackChip);
+
         whiteChip.setOnClickListener(chipButtonListener);
         redChip.setOnClickListener(chipButtonListener);
         blueChip.setOnClickListener(chipButtonListener);
         greenChip.setOnClickListener(chipButtonListener);
         blackChip.setOnClickListener(chipButtonListener);
+
         winLoss = (TextView) findViewById(R.id.gameWinCheck);
-//        playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
-//        playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
-//        dealerCardImage1 = (ImageView) findViewById(R.id.dealerCardImage1);
-//        dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
         bet = (Button) findViewById(R.id.bet);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
@@ -129,7 +118,6 @@ public class MainActivity extends AppCompatActivity{
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
         doubleDown.setVisibility(View.VISIBLE);
-        //actions.deal(player, dealer);
         dealer.getHand().get(1).turnFaceDown();
 
         if (player.calculateBlackjackHandValue() == blackJackValue)
@@ -139,21 +127,11 @@ public class MainActivity extends AppCompatActivity{
             hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
             winLoss.setText(R.string.blackjack);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            clearTable();
-                        }
-                    });
-                }
-            }, 5000);
+            clearTableDelay();
+        }
+        if(amountUserChips <= betAmount * 2)
+        {
+            doubleDown.setVisibility(View.INVISIBLE);
         }
     }
 
@@ -189,22 +167,16 @@ public class MainActivity extends AppCompatActivity{
         stand.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.INVISIBLE);
         doubleDown.setVisibility(View.INVISIBLE);
-//        dealer.getHand().get(1).turnFaceUp();
-//        displayCard(dealerCardImage2, dealer.getHand().get(1));
         dealerPlay();
     }
 
     public void doubleDownButton(View view)
     {
-        //final ConstraintLayout layout = findViewById(R.id.myLayout);
-
         if ((betAmount * 2) <= amountUserChips)
         {
             betAmount = actions.doubleDown(betAmount);
             actions.hit(player);
-            Log.i("PlayerHand - Double", player.hand.getCards().toString());
             playerHandDisplay.display();
-//            moveNewCard(layout, playerLastCard, player);
             standButton(view);
         }
     }
@@ -222,14 +194,6 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-   /* public void displayCard(ImageView imageView, Card card)
-    {
-        int cardImageID = getResources().getIdentifier(card.toString(), "drawable", "com.example.blackjack");
-        if(card.getFaceUp()) imageView.setImageResource(cardImageID);
-        else imageView.setImageResource(R.drawable.blue_back);
-        imageView.setVisibility(View.VISIBLE);
-    }
-    */
     public void clearTable()
     {
         playerHandDisplay.clear();
@@ -265,7 +229,7 @@ public class MainActivity extends AppCompatActivity{
         else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
         {
             winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount *= 2;
+            amountUserChips += betAmount * 2;
             winLoss.setText(R.string.dealer_bust);
             clearTableDelay();
         }
@@ -286,7 +250,7 @@ public class MainActivity extends AppCompatActivity{
         else
         {
             winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount *= 2;
+            amountUserChips += betAmount * 2;
             winLoss.setText(R.string.player_won);
             clearTableDelay();
         }
@@ -299,52 +263,6 @@ public class MainActivity extends AppCompatActivity{
 
         }
     }
-
-
-//    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
-//    {
-//        ImageView image;
-//        if(player == this.player)
-//        {
-//            image = createNewCard(playerCardImageArray);
-//        }
-//        else
-//        {
-//            image = createNewCard(dealerCardImageArray);
-//        }
-//        final float currentX = lastCard.getX();
-//        final float currentY = lastCard.getY();
-//
-//        final int currentHeight = lastCard.getHeight();
-//        final int currentWidth = lastCard.getWidth();
-//        final float separation = 160;
-//
-//        image.requestLayout();
-//
-//        image.setX(currentX + separation);
-//        image.setY(currentY);
-//        Log.i("carddisplay", "x: " + currentX + ", y: " + currentY);
-//
-//        image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-//        image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-//        if(player == this.player)
-//        {
-//            displayCard(image, this.player.getHand().getCards().get(playerCardImageArray.size() - 1));
-//        }
-//        else
-//        {
-//            displayCard(image, dealer.getHand().getCards().get(dealerCardImageArray.size() - 1));
-//        }
-//        layout.addView(image);
-//        if(player == this.player)
-//        {
-//            playerLastCard = image;
-//        }
-//        else
-//        {
-//            dealerLastCard = image;
-//        }
-//    }
 
     public ImageView createNewCard(List<ImageView> arrayToBeAdded)
     {

@@ -8,12 +8,14 @@ public class BlackJackActions
     private Deck deck;
     private Player player;
     private Player dealer;
+    private int blackJackValue;
 
     BlackJackActions(Deck deck, Player player, Player dealer)
     {
         this.deck = deck;
         this.player = player;
         this.dealer = dealer;
+        blackJackValue = 21;
     }
 
     public void deal(Player player1, Player dealer)
@@ -57,5 +59,44 @@ public class BlackJackActions
             }
         }
         return betAmount;
+    }
+
+    public int gameConditions()
+    {
+        int playerHandValue = player.calculateBlackjackHandValue();
+        int dealerHandValue = dealer.calculateBlackjackHandValue();
+        if(player.calculateBlackjackHandValue() > blackJackValue)
+        {
+            return R.string.player_bust;
+
+        }
+        else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
+        {
+            winLoss.setVisibility(View.VISIBLE);
+            amountUserChips += betAmount * 2;
+            winLoss.setText(R.string.dealer_bust);
+            clearTableDelay();
+        }
+        else if(playerHandValue < blackJackValue && playerHandValue == dealerHandValue)
+        {
+            winLoss.setVisibility(View.VISIBLE);
+            amountUserChips += betAmount;
+            winLoss.setText(R.string.push);
+            clearTableDelay();
+        }
+        else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
+        {
+
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.dealer_won);
+            clearTableDelay();
+        }
+        else
+        {
+            winLoss.setVisibility(View.VISIBLE);
+            amountUserChips += betAmount * 2;
+            winLoss.setText(R.string.player_won);
+            clearTableDelay();
+        }
     }
 }
