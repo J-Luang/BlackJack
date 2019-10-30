@@ -21,7 +21,6 @@ public class CardImage
     private ImageView imageView;
     private static int HEIGHT; // Height and width are not final, but are constant after they are
     private static int WIDTH; // set based on the screen size
-    private static int OFFSET; // The distance between each card in a hand; based on card width
     boolean faceUp;
 
     public CardImage(Activity activity)
@@ -82,6 +81,7 @@ public class CardImage
         faceUp = !faceUp;
     }
 
+    // The distance between each card in a hand is based on card width
     public double getOFFSET()
     {
         return ((double) WIDTH / 2.0 ) / (double) displayMetrics.widthPixels;

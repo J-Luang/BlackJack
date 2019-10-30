@@ -28,6 +28,7 @@ public class HandDisplay
         cardImages = new ArrayList<>();
         lastCardXPercent = xPercent;
         this.yPercent = yPercent;
+        addNewCardImages();
     }
 
     // Checks for new cards in hand and creates a cardImage to add to cardImages
