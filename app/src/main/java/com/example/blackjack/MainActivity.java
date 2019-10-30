@@ -31,24 +31,28 @@ public class MainActivity extends AppCompatActivity{
     private TextView userBet;
     private TextView addBet;
     private TextView subtractBet;
+    private TextView userChips;
+
     private int betAmount;
     private int amountWon;
     private int blackJackValue;
-    private TextView userChips;
     private int amountUserChips;
+    final private int DEALER_MIN_LIMIT = 17;
     private String textUserAmount;
     private String textBetAmount;
+
     private BlackJackActions actions;
     private Button bet;
     private Button hit;
     private Button stand;
+
     private Deck blackjackDeck;
     private Player player;
     private Player dealer;
     private Timer timer;
+
     private HandDisplay playerHandDisplay;
     private HandDisplay dealerHandDisplay;
-    private int dealerMinLimit;
     private Switch plusMinusBet;
     private ConstraintLayout layout;
     private Button doubleDown;
@@ -58,7 +62,6 @@ public class MainActivity extends AppCompatActivity{
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        dealerMinLimit = 17;
         betAmount = 0;
         amountWon = 0;
         amountUserChips = 500;
@@ -159,7 +162,7 @@ public class MainActivity extends AppCompatActivity{
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
-            gameConditions();
+            displayGameConditions();
         }
         else if(player.calculateBlackjackHandValue() == blackJackValue)
         {
@@ -173,7 +176,7 @@ public class MainActivity extends AppCompatActivity{
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
-            gameConditions();
+            displayGameConditions();
         }
     }
 
@@ -206,15 +209,15 @@ public class MainActivity extends AppCompatActivity{
     public void dealerPlay()
     {
         dealerHandDisplay.flipSecondCard();
-        while(dealer.calculateBlackjackHandValue() < dealerMinLimit)
+        while(dealer.calculateBlackjackHandValue() < DEALER_MIN_LIMIT)
         {
             actions.hit(dealer);
             dealerHandDisplay.display();
         }
-        if(dealer.calculateBlackjackHandValue() >= dealerMinLimit)
+        if(dealer.calculateBlackjackHandValue() >= DEALER_MIN_LIMIT)
         {
             dealerHandDisplay.display();
-            gameConditions();
+            displayGameConditions();
         }
     }
 
@@ -250,9 +253,9 @@ public class MainActivity extends AppCompatActivity{
         bet.setText(R.string.bet);
     }
 
-    public void gameConditions()
+    public void displayGameConditions()
     {
-        int[] array = actions.gameConditions(betAmount);
+        int[] array = actions.gameConditions(betAmount, player, dealer);
         winLoss.setVisibility(View.VISIBLE);
         winLoss.setTextColor(array[1]);
         winLoss.setText(array[0]);
@@ -305,7 +308,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
             }
-        }, 2000);
+        }, 3000);
     }
 
     public void checkBlackJack()

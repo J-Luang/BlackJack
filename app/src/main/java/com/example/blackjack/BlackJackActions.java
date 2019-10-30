@@ -63,7 +63,7 @@ public class BlackJackActions
         return betAmount;
     }
 
-    public int[] gameConditions(int amountBet)
+    public int[] gameConditions(int amountBet, Player player, Player dealer)
     {
         int playerHandValue = player.calculateBlackjackHandValue();
         int dealerHandValue = dealer.calculateBlackjackHandValue();
