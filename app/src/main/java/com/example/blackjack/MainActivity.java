@@ -192,10 +192,10 @@ public class MainActivity extends AppCompatActivity{
         if ((betAmount * 2) <= amountUserChips && player.getHand().size() == 2)
         {
             amountUserChips -= betAmount;
-            textUserAmount = "Amount of chips: $" + String.format(Locale.US, "%.2f", (amountUserChips));
+            textUserAmount = "Amount of chips: $" + amountUserChips;
             userChips.setText(textUserAmount);
             betAmount = actions.doubleDown(betAmount);
-            textBetAmount = "Bet: $" + String.format(Locale.US,"%.2f", betAmount);
+            textBetAmount = "Bet: $" + betAmount;
             userBet.setText(textBetAmount);
             actions.hit(player);
             playerHandDisplay.display();
@@ -239,10 +239,10 @@ public class MainActivity extends AppCompatActivity{
         dealer.discardHand();
         Log.i("amountWon", Double.toString(amountWon));
         amountUserChips += amountWon;
-        textUserAmount = "Amount of chips: $" + String.format(Locale.US, "%.2f", amountUserChips);
+        textUserAmount = "Amount of chips: $" + amountUserChips;
         userChips.setText(textUserAmount);
         betAmount = 0;
-        textBetAmount = "Bet: $" + String.format(Locale.US, "%.2f", betAmount);
+        textBetAmount = "Bet: $" + betAmount;
         userBet.setText(textBetAmount);
         bet.setText(R.string.bet_button_text);
         bet.setText(R.string.bet);
