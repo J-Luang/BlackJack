@@ -40,7 +40,7 @@ public class BlackJackActions
         return betAmount;
     }
 
-    public int bet(int betAmount, int chip, boolean switchState)
+    public int bet(int betAmount, int chip, boolean switchState, int amountUserChips)
     {
         int[] betChipsArray = new int[]{R.id.whiteChip, R.id.redChip, R.id.blueChip, R.id.greenChip, R.id.blackChip};
         int[] betAmountArray = new int[]{1, 5, 10, 25, 100};
@@ -48,55 +48,57 @@ public class BlackJackActions
         {
             if(chip == betChipsArray[i])
             {
-                if(!switchState)
+                if(!switchState && (betAmount + betAmountArray[i]) <= amountUserChips)
                 {
                     betAmount += betAmountArray[i];
                 }
-                else
+                else if(switchState)
                 {
+                    if ((betAmount - betAmountArray[i]) >= 0)
                     betAmount -= betAmountArray[i];
+                    else betAmount = 0;
                 }
             }
         }
         return betAmount;
     }
 
-    public int gameConditions()
+    public int[] gameConditions(int amountBet)
     {
         int playerHandValue = player.calculateBlackjackHandValue();
         int dealerHandValue = dealer.calculateBlackjackHandValue();
+        int[] array = new int[3];
         if(player.calculateBlackjackHandValue() > blackJackValue)
         {
-            return R.string.player_bust;
-
+            array[0] = R.string.player_bust;
+            //color
+            array[1] = R.color.colorAccent;
+            //win amount
         }
         else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
         {
-            winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount * 2;
-            winLoss.setText(R.string.dealer_bust);
-            clearTableDelay();
+            array[0] = R.string.dealer_bust;
+            array[1] = R.color.winColor;
+            array[2] = amountBet * 2;
         }
         else if(playerHandValue < blackJackValue && playerHandValue == dealerHandValue)
         {
-            winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount;
-            winLoss.setText(R.string.push);
-            clearTableDelay();
+            array[0] = R.string.push;
+            array[1] = R.color.tieColor;
+            array[2] = amountBet;
+
         }
         else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
         {
-
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.dealer_won);
-            clearTableDelay();
+            array[0] = R.string.dealer_won;
+            array[1] = R.color.colorAccent;
         }
         else
         {
-            winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount * 2;
-            winLoss.setText(R.string.player_won);
-            clearTableDelay();
+            array[0] = R.string.player_won;
+            array[1] = R.color.winColor;
+            array[2] = amountBet * 2;
         }
+        return array;
     }
 }
