@@ -3,6 +3,8 @@ package com.example.blackjack;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import android.annotation.SuppressLint;
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import java.util.List;
+import java.util.Locale;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -23,19 +26,18 @@ public class MainActivity extends AppCompatActivity{
     private ImageView blueChip;
     private ImageView greenChip;
     private ImageView blackChip;
+
     private TextView winLoss;
-    private TextView betText;
+    private TextView userBet;
+    private TextView addBet;
+    private TextView subtractBet;
     private int betAmount;
+    private int amountWon;
     private int blackJackValue;
     private TextView userChips;
     private int amountUserChips;
     private String textUserAmount;
-//    private ImageView playerCardImage1;
-//    private ImageView playerCardImage2;
-//    private ImageView dealerCardImage1;
-//    private ImageView dealerCardImage2;
-//    ImageView playerLastCard;
-//    ImageView dealerLastCard;
+    private String textBetAmount;
     private BlackJackActions actions;
     private Button bet;
     private Button hit;
@@ -44,8 +46,6 @@ public class MainActivity extends AppCompatActivity{
     private Player player;
     private Player dealer;
     private Timer timer;
-//    private List<ImageView> playerCardImageArray;
-//    private List<ImageView> dealerCardImageArray;
     private HandDisplay playerHandDisplay;
     private HandDisplay dealerHandDisplay;
     private int dealerMinLimit;
@@ -60,16 +60,18 @@ public class MainActivity extends AppCompatActivity{
 
         dealerMinLimit = 17;
         betAmount = 0;
+        amountWon = 0;
         amountUserChips = 500;
         blackJackValue = 21;
+        addBet =  findViewById(R.id.addBet);
+        subtractBet = findViewById(R.id.subtractBet);
         userChips = findViewById(R.id.userChips);
+        userBet = findViewById(R.id.userBet);
         actions = new BlackJackActions(blackjackDeck, player, dealer);
         blackjackDeck = new Deck(1);
         player = new Player(blackjackDeck);
         dealer = new Player(blackjackDeck);
         timer = new Timer();
-//        playerCardImageArray = new ArrayList<>();
-//        dealerCardImageArray = new ArrayList<>();
         playerHandDisplay = new HandDisplay(this);
         dealerHandDisplay = new HandDisplay(this);
         layout = findViewById(R.id.myLayout);
@@ -80,21 +82,21 @@ public class MainActivity extends AppCompatActivity{
         blueChip = (ImageView) findViewById(R.id.blueChip);
         greenChip = (ImageView) findViewById(R.id.greenChip);
         blackChip = (ImageView) findViewById(R.id.blackChip);
+
         whiteChip.setOnClickListener(chipButtonListener);
         redChip.setOnClickListener(chipButtonListener);
         blueChip.setOnClickListener(chipButtonListener);
         greenChip.setOnClickListener(chipButtonListener);
         blackChip.setOnClickListener(chipButtonListener);
+
         winLoss = (TextView) findViewById(R.id.gameWinCheck);
-//        playerCardImage1 = (ImageView) findViewById(R.id.playerCardImage1);
-//        playerCardImage2 = (ImageView) findViewById(R.id.playerCardImage2);
-//        dealerCardImage1 = (ImageView) findViewById(R.id.dealerCardImage1);
-//        dealerCardImage2 = (ImageView) findViewById(R.id.dealerCardImage2);
         bet = (Button) findViewById(R.id.bet);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
-        textUserAmount = "Amount of chips: " + amountUserChips;
+        textUserAmount = "Amount of chips: $" + amountUserChips;
         userChips.setText(textUserAmount);
+        textBetAmount = "Bet: $" + betAmount;
+        userBet.setText(textBetAmount);
         plusMinusBet = findViewById(R.id.plusMinusBet);
     }
 
@@ -107,65 +109,56 @@ public class MainActivity extends AppCompatActivity{
     {
         public void onClick(View view)
         {
-            betAmount = actions.bet(betAmount, view.getId(), getSwitchState());
-            bet.setText("Bet: " + Integer.toString(betAmount));
+            betAmount = actions.bet(betAmount, view.getId(), getSwitchState(), amountUserChips);
+            if (betAmount > 0)
+            {
+                bet.setEnabled(true);
+                bet.setText("Bet: $" + betAmount);
+            }
+            if (betAmount == 0)
+            {
+                bet.setEnabled(false);
+                bet.setText(R.string.bet_button_text);
+            }
         }
     };
 
     public void dealButtonClick(View view)
     {
-        // ------------------------------- New Stuff -----------------------------------
         actions.deal(player, dealer);
-        //0.44861, 0.33988
         playerHandDisplay.create(0.33988, 0.55, player.hand, layout);
         playerHandDisplay.display();
         dealerHandDisplay.create(0.33988, 0.1, dealer.hand, layout);
         dealerHandDisplay.flipSecondCard();
         dealerHandDisplay.display();
-        // ----------------------------- End New Stuff ---------------------------------
-        textUserAmount = "Amount of chips: " + (amountUserChips - betAmount);
+        amountUserChips -= betAmount;
+        textUserAmount = "Amount of chips: $" + (amountUserChips);
         userChips.setText(textUserAmount);
+        textBetAmount = "Bet: $" + betAmount;
+        userBet.setText(textBetAmount);
         setImagesInvisible();
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
         doubleDown.setVisibility(View.VISIBLE);
-        //actions.deal(player, dealer);
-        dealer.getHand().get(1).turnFaceDown();
+        checkBlackJack();
 
-        if (player.calculateBlackjackHandValue() == blackJackValue)
+        if(amountUserChips <= betAmount * 2)
         {
-            winLoss.setVisibility(View.VISIBLE);
-            stand.setVisibility(View.INVISIBLE);
-            hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
-            winLoss.setText(R.string.blackjack);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            clearTable();
-                        }
-                    });
-                }
-            }, 5000);
         }
     }
 
     public void hitButtonClick(View view)
     {
         actions.hit(player);
-        Log.i("PlayerHand", player.hand.getCards().toString());
         playerHandDisplay.display();
-        if(player.getHand().size() == 2 && player.calculateBlackjackHandValue() == blackJackValue)
+        doubleDown.setVisibility(View.INVISIBLE);
+        checkBlackJack();
+        if(player.calculateBlackjackHandValue() == blackJackValue)
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
+            doubleDown.setVisibility(View.INVISIBLE);
             gameConditions();
         }
         else if(player.calculateBlackjackHandValue() == blackJackValue)
@@ -179,6 +172,7 @@ public class MainActivity extends AppCompatActivity{
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
+            doubleDown.setVisibility(View.INVISIBLE);
             gameConditions();
         }
     }
@@ -189,22 +183,22 @@ public class MainActivity extends AppCompatActivity{
         stand.setVisibility(View.INVISIBLE);
         hit.setVisibility(View.INVISIBLE);
         doubleDown.setVisibility(View.INVISIBLE);
-//        dealer.getHand().get(1).turnFaceUp();
-//        displayCard(dealerCardImage2, dealer.getHand().get(1));
         dealerPlay();
     }
 
     public void doubleDownButton(View view)
     {
-        //final ConstraintLayout layout = findViewById(R.id.myLayout);
 
-        if ((betAmount * 2) <= amountUserChips)
+        if ((betAmount * 2) <= amountUserChips && player.getHand().size() == 2)
         {
+            amountUserChips -= betAmount;
+            textUserAmount = "Amount of chips: $" + String.format(Locale.US, "%.2f", (amountUserChips));
+            userChips.setText(textUserAmount);
             betAmount = actions.doubleDown(betAmount);
+            textBetAmount = "Bet: $" + String.format(Locale.US,"%.2f", betAmount);
+            userBet.setText(textBetAmount);
             actions.hit(player);
-            Log.i("PlayerHand - Double", player.hand.getCards().toString());
             playerHandDisplay.display();
-//            moveNewCard(layout, playerLastCard, player);
             standButton(view);
         }
     }
@@ -224,74 +218,46 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
-   /* public void displayCard(ImageView imageView, Card card)
-    {
-        int cardImageID = getResources().getIdentifier(card.toString(), "drawable", "com.example.blackjack");
-        if(card.getFaceUp()) imageView.setImageResource(cardImageID);
-        else imageView.setImageResource(R.drawable.blue_back);
-        imageView.setVisibility(View.VISIBLE);
-    }
-    */
     public void clearTable()
     {
         playerHandDisplay.clear();
         dealerHandDisplay.clear();
+        bet.setEnabled(false);
+        plusMinusBet.setChecked(false);
         winLoss.setVisibility(View.INVISIBLE);
         whiteChip.setVisibility(View.VISIBLE);
         redChip.setVisibility(View.VISIBLE);
         blueChip.setVisibility(View.VISIBLE);
         greenChip.setVisibility(View.VISIBLE);
         blackChip.setVisibility(View.VISIBLE);
+        plusMinusBet.setVisibility(View.VISIBLE);
+        addBet.setVisibility(View.VISIBLE);
+        subtractBet.setVisibility(View.VISIBLE);
         hit.setVisibility(View.INVISIBLE);
         stand.setVisibility(View.INVISIBLE);
         bet.setVisibility(View.VISIBLE);
         player.discardHand();
         doubleDown.setVisibility(View.INVISIBLE);
         dealer.discardHand();
-        amountUserChips = amountUserChips - betAmount;
+        Log.i("amountWon", Double.toString(amountWon));
+        amountUserChips += amountWon;
+        textUserAmount = "Amount of chips: $" + String.format(Locale.US, "%.2f", amountUserChips);
+        userChips.setText(textUserAmount);
         betAmount = 0;
+        textBetAmount = "Bet: $" + String.format(Locale.US, "%.2f", betAmount);
+        userBet.setText(textBetAmount);
+        bet.setText(R.string.bet_button_text);
         bet.setText(R.string.bet);
     }
 
     public void gameConditions()
     {
-        int playerHandValue = player.calculateBlackjackHandValue();
-        int dealerHandValue = dealer.calculateBlackjackHandValue();
-        if(player.calculateBlackjackHandValue() > blackJackValue)
-        {
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.player_bust);
-            clearTableDelay();
-
-        }
-        else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
-        {
-            winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount *= 2;
-            winLoss.setText(R.string.dealer_bust);
-            clearTableDelay();
-        }
-        else if(playerHandValue < blackJackValue && playerHandValue == dealerHandValue)
-        {
-            winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount;
-            winLoss.setText(R.string.push);
-            clearTableDelay();
-        }
-        else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
-        {
-
-            winLoss.setVisibility(View.VISIBLE);
-            winLoss.setText(R.string.dealer_won);
-            clearTableDelay();
-        }
-        else
-        {
-            winLoss.setVisibility(View.VISIBLE);
-            amountUserChips += betAmount *= 2;
-            winLoss.setText(R.string.player_won);
-            clearTableDelay();
-        }
+        int[] array = actions.gameConditions(betAmount);
+        winLoss.setVisibility(View.VISIBLE);
+        winLoss.setTextColor(array[1]);
+        winLoss.setText(array[0]);
+        amountWon = array[2];
+        clearTableDelay();
     }
 
     private void gameOver()
@@ -301,52 +267,6 @@ public class MainActivity extends AppCompatActivity{
 
         }
     }
-
-
-//    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
-//    {
-//        ImageView image;
-//        if(player == this.player)
-//        {
-//            image = createNewCard(playerCardImageArray);
-//        }
-//        else
-//        {
-//            image = createNewCard(dealerCardImageArray);
-//        }
-//        final float currentX = lastCard.getX();
-//        final float currentY = lastCard.getY();
-//
-//        final int currentHeight = lastCard.getHeight();
-//        final int currentWidth = lastCard.getWidth();
-//        final float separation = 160;
-//
-//        image.requestLayout();
-//
-//        image.setX(currentX + separation);
-//        image.setY(currentY);
-//        Log.i("carddisplay", "x: " + currentX + ", y: " + currentY);
-//
-//        image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-//        image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-//        if(player == this.player)
-//        {
-//            displayCard(image, this.player.getHand().getCards().get(playerCardImageArray.size() - 1));
-//        }
-//        else
-//        {
-//            displayCard(image, dealer.getHand().getCards().get(dealerCardImageArray.size() - 1));
-//        }
-//        layout.addView(image);
-//        if(player == this.player)
-//        {
-//            playerLastCard = image;
-//        }
-//        else
-//        {
-//            dealerLastCard = image;
-//        }
-//    }
 
     public ImageView createNewCard(List<ImageView> arrayToBeAdded)
     {
@@ -365,6 +285,8 @@ public class MainActivity extends AppCompatActivity{
         blackChip.setVisibility(View.INVISIBLE);
         bet.setVisibility(View.INVISIBLE);
         plusMinusBet.setVisibility(View.INVISIBLE);
+        addBet.setVisibility(View.INVISIBLE);
+        subtractBet.setVisibility(View.INVISIBLE);
     }
 
     public void clearTableDelay()
@@ -384,5 +306,27 @@ public class MainActivity extends AppCompatActivity{
                 });
             }
         }, 2000);
+    }
+
+    public void checkBlackJack()
+    {
+        if (player.calculateBlackjackHandValue() == blackJackValue)
+        {
+            if(player.hand.size() == 2)
+            {
+                amountWon += betAmount * 2.5;
+            }
+            else
+            {
+                amountWon += betAmount * 2;
+            }
+            winLoss.setVisibility(View.VISIBLE);
+            stand.setVisibility(View.INVISIBLE);
+            hit.setVisibility(View.INVISIBLE);
+            doubleDown.setVisibility(View.INVISIBLE);
+            winLoss.setTextColor(getResources().getColor(R.color.winColor));
+            winLoss.setText(R.string.blackjack);
+            clearTableDelay();
+        }
     }
 }

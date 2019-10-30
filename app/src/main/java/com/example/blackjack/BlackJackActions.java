@@ -8,12 +8,14 @@ public class BlackJackActions
     private Deck deck;
     private Player player;
     private Player dealer;
+    private int blackJackValue;
 
     BlackJackActions(Deck deck, Player player, Player dealer)
     {
         this.deck = deck;
         this.player = player;
         this.dealer = dealer;
+        blackJackValue = 21;
     }
 
     public void deal(Player player1, Player dealer)
@@ -38,7 +40,7 @@ public class BlackJackActions
         return betAmount;
     }
 
-    public int bet(int betAmount, int chip, boolean switchState)
+    public int bet(int betAmount, int chip, boolean switchState, int amountUserChips)
     {
         int[] betChipsArray = new int[]{R.id.whiteChip, R.id.redChip, R.id.blueChip, R.id.greenChip, R.id.blackChip};
         int[] betAmountArray = new int[]{1, 5, 10, 25, 100};
@@ -46,16 +48,57 @@ public class BlackJackActions
         {
             if(chip == betChipsArray[i])
             {
-                if(!switchState)
+                if(!switchState && (betAmount + betAmountArray[i]) <= amountUserChips)
                 {
                     betAmount += betAmountArray[i];
                 }
-                else
+                else if(switchState)
                 {
+                    if ((betAmount - betAmountArray[i]) >= 0)
                     betAmount -= betAmountArray[i];
+                    else betAmount = 0;
                 }
             }
         }
         return betAmount;
+    }
+
+    public int[] gameConditions(int amountBet)
+    {
+        int playerHandValue = player.calculateBlackjackHandValue();
+        int dealerHandValue = dealer.calculateBlackjackHandValue();
+        int[] array = new int[3];
+        if(player.calculateBlackjackHandValue() > blackJackValue)
+        {
+            array[0] = R.string.player_bust;
+            //color
+            array[1] = R.color.colorAccent;
+            //win amount
+        }
+        else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
+        {
+            array[0] = R.string.dealer_bust;
+            array[1] = R.color.winColor;
+            array[2] = amountBet * 2;
+        }
+        else if(playerHandValue < blackJackValue && playerHandValue == dealerHandValue)
+        {
+            array[0] = R.string.push;
+            array[1] = R.color.tieColor;
+            array[2] = amountBet;
+
+        }
+        else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
+        {
+            array[0] = R.string.dealer_won;
+            array[1] = R.color.colorAccent;
+        }
+        else
+        {
+            array[0] = R.string.player_won;
+            array[1] = R.color.winColor;
+            array[2] = amountBet * 2;
+        }
+        return array;
     }
 }

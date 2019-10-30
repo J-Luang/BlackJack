@@ -3,4 +3,7 @@
     <color name="colorPrimary">#008577</color>
     <color name="colorPrimaryDark">#00574B</color>
     <color name="colorAccent">#FD005D</color>
+    <color name="winColor">#66FF00</color>
+    <color name="background">#008000</color>
+    <color name="tieColor">#d4af37</color>
 </resources>

@@ -5,7 +5,7 @@
     android:id="@+id/myLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/green"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <Button
@@ -14,6 +14,7 @@
         android:layout_height="wrap_content"
         android:onClick="dealButtonClick"
         android:text="@string/bet"
+        android:enabled="false"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.499"
@@ -48,8 +49,7 @@
         app:layout_constraintHorizontal_bias="0.919"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.633"
-        />
+        app:layout_constraintVertical_bias="0.633" />
 
     <Button
         android:id="@+id/doubleDown"
@@ -120,38 +120,6 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.875"
         app:srcCompat="@drawable/blue_back" />
-
-    <TextView
-        android:id="@+id/gameWinCheck"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="36dp"
-        android:layout_marginEnd="340dp"
-        android:layout_marginLeft="333dp"
-        android:layout_marginRight="340dp"
-        android:layout_marginStart="333dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/gamewin_loss"
-        android:visibility="invisible"
-        app:layout_constraintBottom_toTopOf="@+id/playerCardImage2"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/dealerCardImage2" />
-
-    <TextView
-        android:id="@+id/userChips"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="512dp"
-        android:layout_marginRight="512dp"
-        android:layout_marginBottom="372dp"
-        android:contentDescription="@string/the_amount_of_chips_the_user_has"
-        android:textColor="@color/colorAccent"
-        android:textStyle="bold"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.146"
-        app:layout_constraintStart_toStartOf="parent" />
 
     <ImageView
         android:id="@+id/whiteChip"
@@ -240,6 +208,38 @@
         app:layout_constraintVertical_bias="0.658" />
 
     <TextView
+        android:id="@+id/gameWinCheck"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="36dp"
+        android:layout_marginEnd="340dp"
+        android:layout_marginLeft="333dp"
+        android:layout_marginRight="340dp"
+        android:layout_marginStart="333dp"
+        android:layout_marginTop="40dp"
+        android:text="@string/gamewin_loss"
+        android:textStyle="bold"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toTopOf="@+id/playerCardImage2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/dealerCardImage2" />
+
+    <TextView
+        android:id="@+id/userChips"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="372dp"
+        android:contentDescription="@string/the_amount_of_chips_the_user_has"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
         android:id="@+id/warning"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -249,6 +249,48 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.456" />
+
+    <TextView
+        android:id="@+id/userBet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginBottom="300dp"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.391" />
+
+    <TextView
+        android:id="@+id/addBet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/add_bet"
+        android:textColor="@color/winColor"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/plusMinusBet"
+        app:layout_constraintHorizontal_bias="0.803"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.645" />
+
+    <TextView
+        android:id="@+id/subtractBet"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/subtract_bet"
+        android:textColor="@color/colorAccent"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.012"
+        app:layout_constraintStart_toEndOf="@+id/plusMinusBet"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.645" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
