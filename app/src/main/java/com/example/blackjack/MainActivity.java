@@ -129,6 +129,27 @@ public class MainActivity extends AppCompatActivity{
             displayCard(playerCardImageArray.get(i), player1.getHand().get(i));
             displayCard(dealerCardImageArray.get(i), dealer.getHand().get(i));
         }
+
+        if (player1.calculateBlackjackHandValue() == blackJackValue)
+        {
+            winLoss.setVisibility(View.VISIBLE);
+            winLoss.setText(R.string.blackjack);
+            timer.schedule(new TimerTask()
+            {
+                @Override
+                public void run()
+                {
+                    MainActivity.this.runOnUiThread(new Runnable()
+                    {
+                        @Override
+                        public void run()
+                        {
+                            clearTable();
+                        }
+                    });
+                }
+            }, 5000);
+        }
     }
 
     public void hitButtonClick(View view)
@@ -168,14 +189,13 @@ public class MainActivity extends AppCompatActivity{
     {
         final ConstraintLayout layout = findViewById(R.id.myLayout);
 
-        if ((betAmount * 2) < amountUserChips)
+        if ((betAmount * 2) <= amountUserChips)
         {
             betAmount = actions.doubleDown(player1, betAmount);
             moveNewCard(layout, playerLastCard, player1);
             betText.setText(Integer.toString(betAmount));
             standButton(view);
         }
-
     }
 
     public void dealerPlay()

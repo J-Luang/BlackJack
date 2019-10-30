@@ -11,6 +11,7 @@
     <string name="gamewin_loss">GameWin/Loss</string>
     <string name="player_bust">You have busted!</string>
     <string name="dealer_bust">Dealer has busted!\nYou Won!</string>
+    <string name="blackjack">You have blackjack!</string>
     <string name="push">push</string>
     <string name="player_won">You won!</string>
     <string name="dealer_won">Dealer wins!</string>
