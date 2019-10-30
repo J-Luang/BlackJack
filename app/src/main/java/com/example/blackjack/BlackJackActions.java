@@ -44,7 +44,6 @@ public class BlackJackActions
         int[] betAmountArray = new int[]{1, 5, 10, 25, 100};
         for (int i = 0; i < betChipsArray.length; i += 1)
         {
-            Log.i("Switch","state: " + switchState);
             if(chip == betChipsArray[i])
             {
                 if(!switchState && (betAmount + betAmountArray[i]) <= amountUserChips)

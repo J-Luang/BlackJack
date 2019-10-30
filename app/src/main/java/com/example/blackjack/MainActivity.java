@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity{
         addBet.setVisibility(View.INVISIBLE);
         subtractBet.setVisibility(View.INVISIBLE);
         bet.setVisibility(View.INVISIBLE);
+        setImagesInvisible();
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
         doubleDown.setVisibility(View.VISIBLE);
@@ -193,6 +194,13 @@ public class MainActivity extends AppCompatActivity{
             hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
             gameConditions();
+        }
+        else if(player.calculateBlackjackHandValue() == blackJackValue)
+        {
+            stand.setVisibility(View.INVISIBLE);
+            hit.setVisibility(View.INVISIBLE);
+            doubleDown.setVisibility(View.INVISIBLE);
+            dealerPlay();
         }
         else if (player.calculateBlackjackHandValue() > blackJackValue)
         {
@@ -272,6 +280,7 @@ public class MainActivity extends AppCompatActivity{
         textBetAmount = "Bet: $" + String.format(Locale.US, "%.2f", betAmount);
         userBet.setText(textBetAmount);
         bet.setText(R.string.bet_button_text);
+        bet.setText(R.string.bet);
     }
 
     public void gameConditions()
@@ -283,68 +292,24 @@ public class MainActivity extends AppCompatActivity{
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setTextColor(getResources().getColor(R.color.colorAccent));
             winLoss.setText(R.string.player_bust);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            amountWon = 0;
-                            clearTable();
-                        }
-                    });
-                }
-            }, 5000);
+            amountWon = 0;
+            clearTableDelay();
         }
         else if(playerHandValue < blackJackValue && dealerHandValue > blackJackValue)
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setTextColor(getResources().getColor(R.color.winColor));
             winLoss.setText(R.string.dealer_bust);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            amountWon = betAmount * 2;
-                            clearTable();
-
-                        }
-                    });
-                }
-            }, 5000);
+            amountWon = betAmount * 2;
+            clearTableDelay();
         }
         else if(playerHandValue < blackJackValue && playerHandValue == dealerHandValue)
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setTextColor(getResources().getColor(R.color.tieColor));
             winLoss.setText(R.string.push);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            amountWon = betAmount;
-                            clearTable();
-
-                        }
-                    });
-                }
-            }, 5000);
+            amountWon = betAmount;
+            clearTableDelay();
         }
         else if(playerHandValue < blackJackValue && dealerHandValue > playerHandValue)
         {
@@ -352,44 +317,16 @@ public class MainActivity extends AppCompatActivity{
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setTextColor(getResources().getColor(R.color.colorAccent));
             winLoss.setText(R.string.dealer_won);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            amountWon = 0;
-                            clearTable();
-                        }
-                    });
-                }
-            }, 5000);
+            amountWon = 0;
+            clearTableDelay();
         }
         else
         {
             winLoss.setVisibility(View.VISIBLE);
             winLoss.setTextColor(getResources().getColor(R.color.winColor));
             winLoss.setText(R.string.player_won);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            amountWon = betAmount * 2;
-                            clearTable();
-                        }
-                    });
-                }
-            }, 5000);
+            amountWon = betAmount * 2;
+            clearTableDelay();
         }
     }
 
@@ -401,49 +338,34 @@ public class MainActivity extends AppCompatActivity{
         }
     }
 
+    public void setImagesInvisible()
+    {
+        plusMinusBet.setVisibility(View.INVISIBLE);
+        whiteChip.setVisibility(View.INVISIBLE);
+        redChip.setVisibility(View.INVISIBLE);
+        blueChip.setVisibility(View.INVISIBLE);
+        greenChip.setVisibility(View.INVISIBLE);
+        blackChip.setVisibility(View.INVISIBLE);
+        bet.setVisibility(View.INVISIBLE);
+        plusMinusBet.setVisibility(View.INVISIBLE);
+    }
 
-//    private void moveNewCard(ConstraintLayout layout, ImageView lastCard, Player player)
-//    {
-//        ImageView image;
-//        if(player == this.player)
-//        {
-//            image = createNewCard(playerCardImageArray);
-//        }
-//        else
-//        {
-//            image = createNewCard(dealerCardImageArray);
-//        }
-//        final float currentX = lastCard.getX();
-//        final float currentY = lastCard.getY();
-//
-//        final int currentHeight = lastCard.getHeight();
-//        final int currentWidth = lastCard.getWidth();
-//        final float separation = 160;
-//
-//        image.requestLayout();
-//
-//        image.setX(currentX + separation);
-//        image.setY(currentY);
-//        Log.i("carddisplay", "x: " + currentX + ", y: " + currentY);
-//
-//        image.setLayoutParams(new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT));
-//        image.setLayoutParams(new LinearLayout.LayoutParams(currentWidth, currentHeight));
-//        if(player == this.player)
-//        {
-//            displayCard(image, this.player.getHand().getCards().get(playerCardImageArray.size() - 1));
-//        }
-//        else
-//        {
-//            displayCard(image, dealer.getHand().getCards().get(dealerCardImageArray.size() - 1));
-//        }
-//        layout.addView(image);
-//        if(player == this.player)
-//        {
-//            playerLastCard = image;
-//        }
-//        else
-//        {
-//            dealerLastCard = image;
-//        }
-//    }
+    public void clearTableDelay()
+    {
+        timer.schedule(new TimerTask()
+        {
+            @Override
+            public void run()
+            {
+                MainActivity.this.runOnUiThread(new Runnable()
+                {
+                    @Override
+                    public void run()
+                    {
+                        clearTable();
+                    }
+                });
+            }
+        }, 2000);
+    }
 }
