@@ -205,6 +205,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void dealerPlay()
     {
+        dealerHandDisplay.flipSecondCard();
         while(dealer.calculateBlackjackHandValue() < dealerMinLimit)
         {
             actions.hit(dealer);
@@ -212,6 +213,7 @@ public class MainActivity extends AppCompatActivity{
         }
         if(dealer.calculateBlackjackHandValue() >= dealerMinLimit)
         {
+            dealerHandDisplay.display();
             gameConditions();
         }
     }
