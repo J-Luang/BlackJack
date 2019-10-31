@@ -42,8 +42,8 @@ public class BlackJackActions
 
     public int bet(int betAmount, int chip, boolean switchState, int amountUserChips)
     {
-        int[] betChipsArray = new int[]{R.id.whiteChip, R.id.redChip, R.id.blueChip, R.id.greenChip, R.id.blackChip};
-        int[] betAmountArray = new int[]{1, 5, 10, 25, 100};
+        final int[] betChipsArray = new int[]{R.id.whiteChip, R.id.redChip, R.id.blueChip, R.id.greenChip, R.id.blackChip};
+        final int[] betAmountArray = new int[]{1, 5, 10, 25, 100};
         for (int i = 0; i < betChipsArray.length; i += 1)
         {
             if(chip == betChipsArray[i])

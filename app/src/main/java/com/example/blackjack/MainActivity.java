@@ -4,16 +4,21 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Switch;
 import android.widget.TextView;
 
+import java.io.Console;
 import java.util.List;
 import java.util.Locale;
 import java.util.Timer;
@@ -21,6 +26,7 @@ import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity{
 
+    private SettingsActivity settings;
     private ImageView whiteChip;
     private ImageView redChip;
     private ImageView blueChip;
@@ -45,6 +51,8 @@ public class MainActivity extends AppCompatActivity{
     private Button bet;
     private Button hit;
     private Button stand;
+    private Button doubleDown;
+    private ImageButton settingsButton;
 
     private Deck blackjackDeck;
     private Player player;
@@ -55,7 +63,10 @@ public class MainActivity extends AppCompatActivity{
     private HandDisplay dealerHandDisplay;
     private Switch plusMinusBet;
     private ConstraintLayout layout;
-    private Button doubleDown;
+
+    private int testNumber = -1;
+
+    private final static int SETTINGS_RETURN_CODE = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -96,6 +107,7 @@ public class MainActivity extends AppCompatActivity{
         bet = (Button) findViewById(R.id.bet);
         hit = (Button) findViewById(R.id.hit);
         stand = (Button) findViewById(R.id.standButton);
+        settingsButton = findViewById(R.id.settingsButton);
         textUserAmount = "Amount of chips: $" + amountUserChips;
         userChips.setText(textUserAmount);
         textBetAmount = "Bet: $" + betAmount;
@@ -330,6 +342,43 @@ public class MainActivity extends AppCompatActivity{
             winLoss.setTextColor(getResources().getColor(R.color.winColor));
             winLoss.setText(R.string.blackjack);
             clearTableDelay();
+        }
+    }
+
+    public void settingsButtonClick(View view)
+    {
+        goToSettingsScreen();
+    }
+
+    private void goToSettingsScreen()
+    {
+        final Intent settingsActivity = new Intent(this, SettingsActivity.class);
+        startActivityForResult(settingsActivity, SETTINGS_RETURN_CODE);
+    }
+
+    protected void onActivityResult(int requestCode, int resultCode, Intent intent)
+    {
+        if (requestCode == SETTINGS_RETURN_CODE)
+        {
+            if (resultCode == Activity.RESULT_OK)
+            {
+                final int newTestNumber = intent.getIntExtra("BlackJack Test", settings.getNumber());
+                settings.setNumberOfCases(newTestNumber);
+                Log.i("Test", "Int" + newTestNumber);
+
+//                switch (newTestNumber)
+//                {
+//                    case 1:
+//                        Log.i("Test", "Int" + newTestNumber);
+//                    case 2:
+//                    case 3:
+//                    case 4:
+//                    case 5:
+//                    case 6:
+//                }
+                testNumber = newTestNumber;
+                Log.i("Test", "Int" + testNumber);
+            }
         }
     }
 }

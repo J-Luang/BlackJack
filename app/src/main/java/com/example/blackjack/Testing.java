@@ -11,6 +11,5 @@ public class Testing
         BlackJackActions actions = new BlackJackActions(deck, player, dealer);
 
         List<Card> cards = new ArrayList<>();
-
     }
 }
