@@ -46,13 +46,11 @@ public class Card
 
     private Rank rank;
     private Suit suit;
-    boolean isFaceUp;
 
     Card(Rank rank, Suit suit)
     {
         this.suit = suit;
         this.rank = rank;
-        isFaceUp = true;
     }
 
     public int softValue()
@@ -95,20 +93,5 @@ public class Card
     {
         String cardString = this.suit.toString() + this.rank;
         return cardString;
-    }
-
-    public void turnFaceUp()
-    {
-        isFaceUp = true;
-    }
-
-    public void turnFaceDown()
-    {
-        isFaceUp = false;
-    }
-
-    public boolean getFaceUp()
-    {
-        return isFaceUp;
     }
 }
