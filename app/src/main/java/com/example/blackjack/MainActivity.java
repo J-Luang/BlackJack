@@ -122,15 +122,12 @@ public class MainActivity extends AppCompatActivity{
 
     public void dealButtonClick(View view)
     {
-        // ------------------------------- New Stuff -----------------------------------
         actions.deal(player, dealer);
-        //0.44861, 0.33988
         playerHandDisplay.create(0.33988, 0.55, player.hand, layout);
         playerHandDisplay.display();
         dealerHandDisplay.create(0.33988, 0.1, dealer.hand, layout);
         dealerHandDisplay.flipSecondCard();
         dealerHandDisplay.display();
-        // ----------------------------- End New Stuff ---------------------------------
         amountUserChips -= betAmount;
         textUserAmount = "Amount of chips: $" + String.format(Locale.US, "%.2f", (amountUserChips));
         userChips.setText(textUserAmount);
@@ -149,7 +146,6 @@ public class MainActivity extends AppCompatActivity{
         hit.setVisibility(View.VISIBLE);
         stand.setVisibility(View.VISIBLE);
         doubleDown.setVisibility(View.VISIBLE);
-        //actions.deal(player, dealer);
         dealer.getHand().get(1).turnFaceDown();
 
         if (player.calculateBlackjackHandValue() == blackJackValue)
@@ -158,36 +154,19 @@ public class MainActivity extends AppCompatActivity{
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
+            amountWon = (betAmount * 2.5);
             winLoss.setTextColor(getResources().getColor(R.color.winColor));
             winLoss.setText(R.string.blackjack);
-            timer.schedule(new TimerTask()
-            {
-                @Override
-                public void run()
-                {
-                    MainActivity.this.runOnUiThread(new Runnable()
-                    {
-                        @Override
-                        public void run()
-                        {
-                            amountWon = (betAmount * 2.5);
-                            clearTable();
-
-                        }
-                    });
-                }
-            }, 5000);
+            clearTableDelay();
         }
     }
 
     public void hitButtonClick(View view)
     {
         actions.hit(player);
+        doubleDown.setVisibility(View.INVISIBLE);
         Log.i("PlayerHand", player.hand.getCards().toString());
         playerHandDisplay.display();
-        //final ConstraintLayout layout = findViewById(R.id.myLayout);
-
-        //moveNewCard(layout, playerLastCard, player);
         if(player.calculateBlackjackHandValue() == blackJackValue)
         {
             stand.setVisibility(View.INVISIBLE);
