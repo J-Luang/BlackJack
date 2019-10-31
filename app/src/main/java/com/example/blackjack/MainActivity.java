@@ -155,13 +155,9 @@ public class MainActivity extends AppCompatActivity{
         //dealer.getHand().get(1).turnFaceDown();
         checkBlackJack();
 
-        if(amountUserChips <= betAmount * 2)
+        if(amountUserChips <= betAmount)
         {
             doubleDown.setVisibility(View.INVISIBLE);
-            amountWon = (betAmount * (3/2));
-            winLoss.setTextColor(getResources().getColor(R.color.winColor));
-            winLoss.setText(R.string.blackjack);
-            clearTableDelay();
         }
     }
 
@@ -173,18 +169,11 @@ public class MainActivity extends AppCompatActivity{
         playerHandDisplay.display();
         doubleDown.setVisibility(View.INVISIBLE);
         checkBlackJack();
-        if(player.calculateBlackjackHandValue() == blackJackValue)
-        {
+        if(player.calculateBlackjackHandValue() == blackJackValue) {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
             doubleDown.setVisibility(View.INVISIBLE);
             displayGameConditions();
-        }
-        else if(player.calculateBlackjackHandValue() == blackJackValue)
-        {
-            stand.setVisibility(View.INVISIBLE);
-            hit.setVisibility(View.INVISIBLE);
-            doubleDown.setVisibility(View.INVISIBLE);
             dealerPlay();
         }
         else if (player.calculateBlackjackHandValue() > blackJackValue)
@@ -208,7 +197,7 @@ public class MainActivity extends AppCompatActivity{
     public void doubleDownButton(View view)
     {
 
-        if ((betAmount * 2) <= amountUserChips && player.getHand().size() == 2)
+        if (betAmount <= amountUserChips && player.getHand().size() == 2)
         {
             amountUserChips -= betAmount;
             textUserAmount = "Amount of chips: $" + amountUserChips;
@@ -260,6 +249,7 @@ public class MainActivity extends AppCompatActivity{
         dealer.discardHand();
         Log.i("amountWon", Double.toString(amountWon));
         amountUserChips += Math.rint(amountWon);
+        if(amountUserChips <= 0) amountUserChips = 500;
         textUserAmount = "Amount of chips: $" + amountUserChips;
         userChips.setText(textUserAmount);
         betAmount = 0;
@@ -351,7 +341,7 @@ public class MainActivity extends AppCompatActivity{
 
     public void settingsButtonClick(View view)
     {
-        goToSettingsScreen();
+//        goToSettingsScreen();
     }
 
     private void goToSettingsScreen()
