@@ -27,4 +27,14 @@
     <string name="the_amount_of_chips_the_user_has">The amount of chips the user has.</string>
     <string name="amount_of_chips">Amount of Chips: </string>
     <string name="bet_button_text">Bet</string>
+    <string name="button_to_go_to_settings">Button to go to settings</string>
+    <string name="back_to_main_activity">Back to main activity</string>
+    <string name="blackjack_test">BlackJack Test</string>
+    <string name="dealerBust_test">Dealer Bust Test</string>
+    <string name="PlayerBust_test">Player Bust Test</string>
+    <string name="dealerWin_test">Dealer Win Test</string>
+    <string name="PlayerWin_test">Player Win Test</string>
+    <string name="Ace_test">Ace Test</string>
+    <string name="enter_test_number">Enter Test Number</string>
+    <string name="number_of_test_cases">-1</string>
 </resources>
