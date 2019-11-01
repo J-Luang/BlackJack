@@ -3,10 +3,8 @@ package com.example.blackjack;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -17,7 +15,6 @@ import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -155,7 +152,6 @@ public class MainActivity extends AppCompatActivity{
         stand.setVisibility(View.VISIBLE);
         doubleDown.setVisibility(View.VISIBLE);
         surrender.setVisibility(View.VISIBLE);
-        //dealer.getHand().get(1).turnFaceDown();
         checkBlackJack();
 
         if(amountUserChips <= betAmount)
@@ -172,26 +168,10 @@ public class MainActivity extends AppCompatActivity{
         playerHandDisplay.display();
         checkBlackJack();
 
-        /*if(player.calculateBlackjackHandValue() == blackJackValue) {
-            stand.setVisibility(View.INVISIBLE);
-            hit.setVisibility(View.INVISIBLE);
-            //doubleDown.setVisibility(View.INVISIBLE);
-            //surrender.setVisibility(View.INVISIBLE);
-            displayGameConditions();
-        }
-        if(player.calculateBlackjackHandValue() == blackJackValue)
-        {
-            stand.setVisibility(View.INVISIBLE);
-            hit.setVisibility(View.INVISIBLE);
-            doubleDown.setVisibility(View.INVISIBLE);
-            dealerPlay();
-        }*/
         if (player.calculateBlackjackHandValue() > blackJackValue)
         {
             stand.setVisibility(View.INVISIBLE);
             hit.setVisibility(View.INVISIBLE);
-            //doubleDown.setVisibility(View.INVISIBLE);
-            //surrender.setVisibility(View.INVISIBLE);
             displayGameConditions();
         }
     }
@@ -265,12 +245,12 @@ public class MainActivity extends AppCompatActivity{
         player.discardHand();
         doubleDown.setVisibility(View.INVISIBLE);
         dealer.discardHand();
-        Log.i("amountWon", Double.toString(amountWon));
         amountUserChips += Math.rint(amountWon);
         if(amountUserChips <= 0) amountUserChips = 500;
         textUserAmount = "Amount of chips: $" + amountUserChips;
         userChips.setText(textUserAmount);
         betAmount = 0;
+        amountWon = 0;
         textBetAmount = "Bet: $" + betAmount;
         userBet.setText(textBetAmount);
         bet.setText(R.string.bet_button_text);
@@ -285,21 +265,6 @@ public class MainActivity extends AppCompatActivity{
         winLoss.setTextColor(getResources().getColor(array[1]));
         amountWon = array[2];
         clearTableDelay();
-    }
-
-    private void gameOver()
-    {
-        if(amountUserChips == 0)
-        {
-
-        }
-    }
-
-    public ImageView createNewCard(List<ImageView> arrayToBeAdded)
-    {
-        final ImageView newCard = new ImageView(this);
-        arrayToBeAdded.add(newCard);
-        return newCard;
     }
 
     public void setImagesInvisible()
@@ -332,7 +297,7 @@ public class MainActivity extends AppCompatActivity{
                     }
                 });
             }
-        }, 3000);
+        }, 5000);
     }
 
     public void checkBlackJack()
@@ -346,7 +311,6 @@ public class MainActivity extends AppCompatActivity{
             else
             {
                 dealerPlay();
-                //amountWon += betAmount * 2;
             }
             winLoss.setVisibility(View.VISIBLE);
             stand.setVisibility(View.INVISIBLE);
