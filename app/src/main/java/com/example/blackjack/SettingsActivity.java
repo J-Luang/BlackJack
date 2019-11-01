@@ -39,14 +39,6 @@ public class SettingsActivity extends AppCompatActivity
         blackjackDeck = new Deck(1);
         player = new Player(blackjackDeck);
         dealer = new Player(blackjackDeck);
-        numberTest = findViewById(R.id.enterTestNumber);
-
-        blackJackButton = findViewById(R.id.BlackJack);
-        dealerBusts = findViewById(R.id.dealerBust);
-        playerBusts = findViewById(R.id.playerBust);
-        playerWins = findViewById(R.id.playerWin);
-        dealerWins = findViewById(R.id.dealerWin);
-        aceTest = findViewById(R.id.aceTest);
 
         numberTestCase = 6;
     }
