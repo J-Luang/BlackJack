@@ -61,8 +61,8 @@ public class Card
 
     }
 
-    private Rank rank;
-    private Suit suit;
+    private final Rank rank;
+    private final Suit suit;
     private static final int ACE_SOFT_VALUE = 11;
     private static final int ACE_HARD_VALUE = 1;
     private static final int FACE_CARD_VALUE = 10;
