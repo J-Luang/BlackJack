@@ -44,7 +44,7 @@ public class Hand {
 
         for (Card card : cards)
         {
-            softValue += card.softValue();
+            softValue += card.getSoftValue();
         }
 
         return softValue;
@@ -56,7 +56,7 @@ public class Hand {
 
         for (Card card : cards)
         {
-            handValue += card.hardValue();
+            handValue += card.getHardValue();
         }
 
         return handValue;
